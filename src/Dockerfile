@@ -4,6 +4,7 @@ FROM fedora:latest
 ARG HOST_USER_UID
 ARG XDEV_PHP_WORKING_DIR
 ARG XDEV_PHP_DISPLAY
+ARG SINDRIA_USER_PASSWORD
 
 ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
@@ -22,11 +23,14 @@ RUN groupmod ${SINDRIA_USER} -g ${HOST_USER_UID}
 #RUN cp /root/.bash_aliases ${SINDRIA_USER_HOME}/.bash_aliases
 
 # Install base software
-RUN dnf install curl wget tmux vim unzip supervisor git sudo zsh iputils net-tools bzip2 -y
+RUN dnf install curl wget tmux vim unzip supervisor git sudo zsh iputils htop net-tools bzip2 -y
 
 # User permission
 RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
 RUN usermod -a -G ${SUDO_GROUP} ${SINDRIA_USER}
+RUN echo "${SINDRIA_USER_PASSWORD}:${SINDRIA_USER}" | chpasswd
+RUN chmod 644 /etc/sudoers
+RUN sed -i -e -r "s|#%wheel  ALL=(ALL)       NOPASSWD: ALL|%wheel  ALL=(ALL)       NOPASSWD: ALL|g" /etc/sudoers
 
 # Install docker client
 RUN dnf -y install dnf-plugins-core

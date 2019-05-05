@@ -1,3 +1,3 @@
-# Test 
+# Xdev PHP
 
-A custom docker image.
+A complete GUI dev php environment docker image with all software you needed.
