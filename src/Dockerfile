@@ -30,7 +30,7 @@ RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
 RUN usermod -a -G ${SUDO_GROUP} ${SINDRIA_USER}
 RUN echo "${SINDRIA_USER_PASSWORD}:${SINDRIA_USER}" | chpasswd
 RUN chmod 644 /etc/sudoers
-RUN sed -i -e "s/#%wheel  ALL=(ALL)       NOPASSWD: ALL/%wheel  ALL=(ALL)       NOPASSWD: ALL/g" /etc/sudoers
+RUN sed -i -e "s/# %wheel  ALL=(ALL)       NOPASSWD: ALL/%wheel  ALL=(ALL)       NOPASSWD: ALL/g" /etc/sudoers
 
 # Install docker client
 RUN dnf -y install dnf-plugins-core
@@ -39,7 +39,7 @@ RUN dnf install docker-ce docker-ce-cli containerd.io -y
 RUN usermod -a -G docker ${SINDRIA_USER}
 
 # Install i3, utility and fonts
-RUN dnf install i3 i3lock feh scrot xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla terminator levien-inconsolata-fonts dejavu-*-fonts -y
+RUN dnf install i3 i3lock feh scrot xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts -y
 
 # I3 configuration
 RUN mkdir -p /home/sindria/.config
