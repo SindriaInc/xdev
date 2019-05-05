@@ -1,5 +1,0 @@
-[program:php-fpm]
-command=/usr/sbin/php-fpm -F
-numprocs=1
-autostart=true
-autorestart=true

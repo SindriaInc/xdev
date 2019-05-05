@@ -1,27 +1,32 @@
 version: '3.7'
 
 services:
-  # =xdev-fedora
-  xdev-fedora:
-    image: "sindria-xdev-fedora:${XDEV_FEDORA_TAG}"
-    container_name: "sindria-xdev-fedora"
-    working_dir: ${XDEV_FEDORA_WORKING_DIR}
+  # =xdev-php
+  xdev-php:
+    image: "sindria-xdev-php:${XDEV_PHP_TAG}"
+    container_name: "xdev-php"
+    working_dir: ${XDEV_PHP_WORKING_DIR}
     build:
       context: ./src
       shm_size: '2gb'
       args:
         - HOST_USER_UID=${HOST_USER_UID}
-        - XDEV_FEDORA_WORKING_DIR=${XDEV_FEDORA_WORKING_DIR}
+        - XDEV_PHP_WORKING_DIR=${XDEV_PHP_WORKING_DIR}
+        - XDEV_PHP_DISPLAY=${XDEV_PHP_DISPLAY}  
     environment:
-        - DISPLAY=${XDEV_FEDORA_DISPLAY}   
+        - DISPLAY=${XDEV_PHP_DISPLAY}   
     volumes:
-      - "${XDEV_FEDORA_LOCAL_WORKING_DIR}:${XDEV_FEDORA_WORKING_DIR}"
+      # System volumes      
       - "/dev/shm:/dev/shm"
       - "/tmp/.X11-unix:/tmp/.X11-unix"
       - "/dev/snd:/dev/snd" 
       - "/dev/dri:/dev/dri"
-      - "/run/user/${HOST_USER_UID}/pulse:/run/pulse:ro"  
-    hostname: "sindria-xdev-fedora.local"
+      - "/run/user/${HOST_USER_UID}/pulse:/run/pulse:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      # Working volumes  
+      - "${XDEV_PHP_LOCAL_WORKING_DIR}:${XDEV_PHP_WORKING_DIR}"
+      - "${XDEV_PHP_LOCAL_SSH_PATH}:${XDEV_PHP_SSH_PATH}"  
+    hostname: "xdev-php.local"
     devices:
       - "/dev/snd"
     command: su sindria -c "export DISPLAY=:0.0 && /usr/bin/i3"    
