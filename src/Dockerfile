@@ -30,7 +30,7 @@ RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
 RUN usermod -a -G ${SUDO_GROUP} ${SINDRIA_USER}
 RUN echo "${SINDRIA_USER_PASSWORD}:${SINDRIA_USER}" | chpasswd
 RUN chmod 644 /etc/sudoers
-RUN sed -i -e -r "s|#%wheel  ALL=(ALL)       NOPASSWD: ALL|%wheel  ALL=(ALL)       NOPASSWD: ALL|g" /etc/sudoers
+RUN sed -i -e "s/#%wheel  ALL=(ALL)       NOPASSWD: ALL/%wheel  ALL=(ALL)       NOPASSWD: ALL/g" /etc/sudoers
 
 # Install docker client
 RUN dnf -y install dnf-plugins-core
