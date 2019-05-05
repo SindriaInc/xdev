@@ -32,6 +32,7 @@ RUN usermod -a -G ${SUDO_GROUP} ${SINDRIA_USER}
 RUN dnf -y install dnf-plugins-core
 RUN dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 RUN dnf install docker-ce docker-ce-cli containerd.io -y
+RUN usermod -a -G docker ${SINDRIA_USER}
 
 # Install i3, utility and fonts
 RUN dnf install i3 i3lock feh scrot xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla terminator levien-inconsolata-fonts dejavu-*-fonts -y
@@ -45,27 +46,27 @@ RUN mkdir -p /home/sindria/Pictures/Screenshots
 RUN mkdir -p /home/sindria/Pictures/Wallpapers
 
 # Install Telegram Desktop
-RUN wget https://updates.tdesktop.com/tlinux/tsetup.1.6.7.tar.xz -O /home/sindria/
-RUN tar xf /home/sindria/.Telegram/tsetup.1.6.7.tar.xz
+RUN wget https://updates.tdesktop.com/tlinux/tsetup.1.6.7.tar.xz -P /home/sindria/
+RUN tar xvf /home/sindria/tsetup.1.6.7.tar.xz -C /home/sindria
 RUN rm -rf /home/sindria/tsetup.1.6.7.tar.xz
 RUN mv /home/sindria/Telegram /home/sindria/.Telegram
 RUN ln -s /home/sindria/.Telegram/Telegram /usr/local/bin/telegram-desktop
 RUN mkdir -p /var/cache/fontconfig 
-RUN chown root:$(SINDRIA_USER) /var/cache/fontconfig
+RUN chown root:${SINDRIA_USER} /var/cache/fontconfig
 RUN chmod 775 /var/cache/fontconfig
 
 # Install firefox developer edition
-RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/67.0b16/linux-x86_64/en-US/firefox-67.0b16.tar.bz2 -O /opt
+RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/67.0b16/linux-x86_64/en-US/firefox-67.0b16.tar.bz2 -P /opt
 RUN bzip2 -d /opt/firefox-67.0b16.tar.bz2
-RUN tar xf /opt/firefox-67.0b16.tar
+RUN tar xf /opt/firefox-67.0b16.tar -C /opt
 RUN rm -rf /opt/*.bz2
 RUN rm -rf /opt/*.tar
 RUN mv /opt/firefox /opt/firefox-developer
 RUN ln -s /opt/firefox-developer/firefox /usr/local/bin/firefox-developer
 
 # Install xflux
-RUN wget https://justgetflux.com/linux/xflux64.tgz -O /usr/local/bin
-RUN tar xzf /usr/local/bin/xflux64.tgz
+RUN wget https://justgetflux.com/linux/xflux64.tgz -P /usr/local/bin
+RUN tar xzf /usr/local/bin/xflux64.tgz -C /usr/local/bin
 RUN rm -rf /usr/local/bin/xflux.tgz
 
 # Install sublime text
@@ -74,8 +75,8 @@ RUN dnf config-manager --add-repo https://download.sublimetext.com/rpm/stable/x8
 RUN dnf install sublime-text -y
 
 # Install PhpStorm
-RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-2019.1.1.tar.gz -O /opt
-RUN tar xzf /opt/PhpStorm-2019.1.1.tar.gz
+RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-2019.1.1.tar.gz -P /opt
+RUN tar xzf /opt/PhpStorm-2019.1.1.tar.gz -C /opt
 RUN rm -rf /opt/PhpStorm-2019.1.1.tar.gz
 RUN mv /opt/PhpStorm-* /opt/PhpStorm
 RUN ln -s /opt/PhpStorm/bin/phpstorm.sh /usr/local/bin/phpstorm
