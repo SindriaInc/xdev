@@ -1,0 +1,5 @@
+[program:nginx]
+command=/usr/sbin/nginx
+numprocs=1
+autostart=true
+autorestart=true

@@ -1,0 +1,6 @@
+[program:cron]
+command=/usr/sbin/cron -f
+numprocs=1
+autostart=true
+autorestart=true
+priority=10

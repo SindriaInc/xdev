@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  # =xdev-fedora
+  xdev-fedora:
+    image: "sindria-xdev-fedora:${XDEV_FEDORA_TAG}"
+    container_name: "sindria-xdev-fedora"
+    working_dir: ${XDEV_FEDORA_WORKING_DIR}
+    build:
+      context: ./src
+      shm_size: '2gb'
+      args:
+        - HOST_USER_UID=${HOST_USER_UID}
+        - XDEV_FEDORA_WORKING_DIR=${XDEV_FEDORA_WORKING_DIR}
+    environment:
+        - DISPLAY=${XDEV_FEDORA_DISPLAY}   
+    volumes:
+      - "${XDEV_FEDORA_LOCAL_WORKING_DIR}:${XDEV_FEDORA_WORKING_DIR}"
+      - "/dev/shm:/dev/shm"
+      - "/tmp/.X11-unix:/tmp/.X11-unix"
+      - "/dev/snd:/dev/snd" 
+      - "/dev/dri:/dev/dri"
+      - "/run/user/${HOST_USER_UID}/pulse:/run/pulse:ro"  
+    hostname: "sindria-xdev-fedora.local"
+    devices:
+      - "/dev/snd"
+    command: su sindria -c "export DISPLAY=:0.0 && /usr/bin/i3"    
