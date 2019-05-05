@@ -85,6 +85,11 @@ RUN rm -rf /opt/PhpStorm-2019.1.1.tar.gz
 RUN mv /opt/PhpStorm-* /opt/PhpStorm
 RUN ln -s /opt/PhpStorm/bin/phpstorm.sh /usr/local/bin/phpstorm
 
+# Install Mysql Workbench
+RUN wget https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-8.0.16-1.fc29.x86_64.rpm -P /home/sindria
+RUN dnf install /home/sindria/mysql-workbench-community-8.0.16-1.fc29.x86_64.rpm -y
+RUN rm -rf /home/sindria/mysql-workbench-community-8.0.16-1.fc29.x86_64.rpm
+
 # Install oh-my-zsh
 RUN su sindria -c "cd /home/sindria && wget --no-check-certificate http://install.ohmyz.sh -O - | sh"
 RUN usermod -s /bin/zsh ${SINDRIA_USER}
