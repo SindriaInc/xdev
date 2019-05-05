@@ -22,7 +22,7 @@ RUN groupmod ${SINDRIA_USER} -g ${HOST_USER_UID}
 #RUN cp /root/.bash_aliases ${SINDRIA_USER_HOME}/.bash_aliases
 
 # Install base software
-RUN dnf install curl vim unzip supervisor git sudo iputils net-tools -y
+RUN dnf install curl wget tmux vim unzip supervisor git sudo zsh iputils net-tools -y
 
 # User permission
 RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
@@ -33,8 +33,30 @@ RUN dnf -y install dnf-plugins-core
 RUN dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 RUN dnf install docker-ce docker-ce-cli containerd.io -y
 
-# Install software
-RUN dnf install i3 feh scrot firefox alsa-utils terminator levien-inconsolata-fonts dejavu-*-fonts -y
+# Install i3, utility and fonts
+RUN dnf install i3 i3lock feh scrot xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla terminator levien-inconsolata-fonts dejavu-*-fonts -y
+
+# Install firefox developer edition
+
+# Install xflux
+RUN wget https://justgetflux.com/linux/xflux64.tgz -O /usr/local/bin
+RUN tar xzf /usr/local/bin/xflux64.tgz
+RUN rm -rf /usr/local/bin/xflux.tgz
+
+# Install sublime text
+RUN rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg
+RUN dnf config-manager --add-repo https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo 
+RUN dnf install sublime-text -y
+
+# Install PhpStorm
+RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-2019.1.1.tar.gz -O /opt
+RUN tar xzf /opt/PhpStorm-2019.1.1.tar.gz
+RUN rm -rf /opt/PhpStorm-2019.1.1.tar.gz
+RUN mv /opt/PhpStorm-* /opt/PhpStorm
+RUN ln -s /opt/PhpStorm/bin/phpstorm.sh /usr/local/bin/phpstorm
+
+# Install oh-my-zsh
+RUN su sindria -c "cd /home/sindria && wget --no-check-certificate http://install.ohmyz.sh -O - | sh"
 
 # Setting up volume
 RUN mkdir -p ${XDEV_PHP_WORKING_DIR}
