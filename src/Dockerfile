@@ -2,6 +2,7 @@
 FROM fedora:latest
 
 ARG HOST_USER_UID
+ARG TIMEZONE
 ARG XDEV_PHP_WORKING_DIR
 ARG XDEV_PHP_DISPLAY
 ARG SINDRIA_USER_PASSWORD
@@ -10,9 +11,13 @@ ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
 ENV SUDO_GROUP wheel
 ENV DISPLAY ${XDEV_PHP_DISPLAY}
+ENV TZ ${TIMEZONE}
 
 # Update system
 RUN dnf update -y
+
+# Set timezone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Adding sindria user
 RUN useradd ${SINDRIA_USER} -u ${HOST_USER_UID} -m -d ${SINDRIA_USER_HOME} -s /bin/bash
