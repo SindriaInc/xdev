@@ -28,6 +28,20 @@ services:
       - "${XDEV_PHP_LOCAL_WORKING_DIR}:${XDEV_PHP_WORKING_DIR}"
       - "${XDEV_PHP_LOCAL_SSH_PATH}:${XDEV_PHP_SSH_PATH}"  
     hostname: "xdev-php.local"
+    networks:
+      default:
+        ipv4_address: "${SINDRIADOCK_XDEV_PHP_IP_ADDRESS}"
+        aliases:
+          - "xdev-php.local"
     devices:
       - "/dev/snd"
-    command: su sindria -c "export DISPLAY=:0.0 && /usr/bin/i3"    
+    command: su sindria -c "export DISPLAY=:0.0 && /usr/bin/i3"
+
+# =networks
+networks:
+  default:
+    name: "vpc_xdev-php"
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SINDRIADOCK_NETWORK_SUBNET}
