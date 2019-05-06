@@ -3,7 +3,7 @@ version: '3.7'
 services:
   # =xdev-php
   xdev-php:
-    image: "sindria-xdev-php:${XDEV_PHP_TAG}"
+    image: "${REGISTRY_PREFIX}sindria-xdev-php:${XDEV_PHP_TAG}"
     container_name: "xdev-php"
     working_dir: ${XDEV_PHP_WORKING_DIR}
     build:

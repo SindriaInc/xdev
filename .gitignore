@@ -1,7 +1,5 @@
 .env
-storage/*
 
-!storage/data/.gitkeep
-!storage/logs/.gitkeep
+/config/xdev-php/etc/.done
 
 /.idea
