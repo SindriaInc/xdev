@@ -14,9 +14,10 @@ ENV DISPLAY ${XDEV_PHP_DISPLAY}
 # Update system
 RUN dnf update -y
 
-# Adding sindria user user
+# Adding sindria user
 RUN useradd ${SINDRIA_USER} -u ${HOST_USER_UID} -m -d ${SINDRIA_USER_HOME} -s /bin/bash
 RUN groupmod ${SINDRIA_USER} -g ${HOST_USER_UID}
+RUN mkdir -p ${SINDRIA_USER_HOME}/config
 
 #COPY .bash_aliases /root/.bash_aliases
 #RUN cp /root/.bashrc ${SINDRIA_USER_HOME}/.bashrc
@@ -103,7 +104,5 @@ VOLUME ${XDEV_PHP_WORKING_DIR}
 RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
 
 # Add and execute startup command
-#COPY ./startup.sh /startup.sh
-#CMD ["/bin/bash", "/startup.sh"]
-
-#EXPOSE 80
+COPY ./startup.sh /startup.sh
+CMD ["/bin/bash", "/startup.sh"]

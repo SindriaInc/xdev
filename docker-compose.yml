@@ -24,6 +24,8 @@ services:
       - "/dev/dri:/dev/dri"
       - "/run/user/${HOST_USER_UID}/pulse:/run/pulse:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
+      # Config volumes
+      - "{APP_CONFIG_PATH}/xdev-php:/home/sindria/config"  
       # Working volumes  
       - "${XDEV_PHP_LOCAL_WORKING_DIR}:${XDEV_PHP_WORKING_DIR}"
       - "${XDEV_PHP_LOCAL_SSH_PATH}:${XDEV_PHP_SSH_PATH}"  
@@ -35,7 +37,6 @@ services:
           - "xdev-php.local"
     devices:
       - "/dev/snd"
-    command: su sindria -c "export DISPLAY=:0.0 && /usr/bin/i3"
 
 # =networks
 networks:
