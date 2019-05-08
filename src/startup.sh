@@ -12,4 +12,4 @@ if [ ! -f "/home/sindria/config/etc/.done" ]; then
   touch /home/sindria/config/etc/.done
 fi  
 
-su sindria -c "export DISPLAY=:0.0 && /usr/bin/i3"
+su sindria -c "export DISPLAY=$DISPLAY && /usr/bin/i3"
