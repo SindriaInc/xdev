@@ -2,6 +2,7 @@
 FROM fedora:latest
 
 ARG HOST_USER_UID
+ARG HOST_DOCKER_GROUP_UID
 ARG TIMEZONE
 ARG XDEV_PHP_WORKING_DIR
 ARG XDEV_PHP_DISPLAY
@@ -43,6 +44,7 @@ RUN dnf -y install dnf-plugins-core
 RUN dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 RUN dnf install docker-ce docker-ce-cli containerd.io -y
 RUN usermod -a -G docker ${SINDRIA_USER}
+RUN groupmod -g ${HOST_DOCKER_GROUP_UID} docker
 
 # Install i3, utility and fonts
 RUN dnf install i3 i3lock feh scrot xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts -y
