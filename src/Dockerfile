@@ -45,6 +45,7 @@ RUN dnf config-manager --add-repo https://download.docker.com/linux/fedora/docke
 RUN dnf install docker-ce docker-ce-cli containerd.io -y
 RUN usermod -a -G docker ${SINDRIA_USER}
 RUN groupmod -g ${HOST_DOCKER_GROUP_UID} docker
+RUN dnf install docker-compose -y
 
 # Install i3, utility and fonts
 RUN dnf install i3 i3lock feh scrot xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts -y
