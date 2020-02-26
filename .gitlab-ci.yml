@@ -1,0 +1,154 @@
+image: registry.sindria.org/docker-images/image-builder:latest
+
+stages:
+  - test
+  - build
+  - push
+
+before_script:
+  - export BLUE='\033[0;34m'
+  - export YELLOW='\033[0;33m'
+  - export RED='\033[0;31m'
+  - export NC='\033[0m' #No Color
+  - export NOW=$(date "+%Y-%m-%d_%H-%M-%S")
+
+test:php71-build:
+  stage: test
+  when: manual
+  tags:
+    - default
+  variables:
+    BUILD_PHP_VERSION: "7.1"
+  script:
+    - echo -e "${BLUE}Building image...${NC}"
+    - chmod +x build.sh
+    - ./build.sh 1000 ${CI_COMMIT_REF_SLUG} ${BUILD_PHP_VERSION} local
+    - ./build.sh 1000 ${CI_COMMIT_REF_SLUG} ${BUILD_PHP_VERSION} production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:${CI_COMMIT_REF_SLUG}-${BUILD_PHP_VERSION}-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:${CI_COMMIT_REF_SLUG}-${BUILD_PHP_VERSION}-production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-${BUILD_PHP_VERSION}-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-${BUILD_PHP_VERSION}-production
+  only:
+    - master
+
+test:php72-build:
+  stage: test
+  when: manual
+  tags:
+    - default
+  variables:
+    BUILD_PHP_VERSION: "7.2"
+  script:
+    - echo -e "${BLUE}Building image...${NC}"
+    - chmod +x build.sh
+    - ./build.sh 1000 ${CI_COMMIT_REF_SLUG} ${BUILD_PHP_VERSION} local
+    - ./build.sh 1000 ${CI_COMMIT_REF_SLUG} ${BUILD_PHP_VERSION} production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:${CI_COMMIT_REF_SLUG}-${BUILD_PHP_VERSION}-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:${CI_COMMIT_REF_SLUG}-${BUILD_PHP_VERSION}-production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-${BUILD_PHP_VERSION}-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-${BUILD_PHP_VERSION}-production
+  only:
+    - master
+
+test:php73-build:
+  stage: test
+  when: manual
+  tags:
+    - default
+  variables:
+    BUILD_PHP_VERSION: "7.3"
+  script:
+    - echo -e "${BLUE}Building image...${NC}"
+    - chmod +x build.sh
+    - ./build.sh 1000 ${CI_COMMIT_REF_SLUG} ${BUILD_PHP_VERSION} local
+    - ./build.sh 1000 ${CI_COMMIT_REF_SLUG} ${BUILD_PHP_VERSION} production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:${CI_COMMIT_REF_SLUG}-${BUILD_PHP_VERSION}-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:${CI_COMMIT_REF_SLUG}-${BUILD_PHP_VERSION}-production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-${BUILD_PHP_VERSION}-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-${BUILD_PHP_VERSION}-production
+  only:
+    - master
+
+test:php74-build:
+  stage: test
+  when: manual
+  tags:
+    - default
+  variables:
+    BUILD_PHP_VERSION: "7.4"
+  script:
+    - echo -e "${BLUE}Building image...${NC}"
+    - chmod +x build.sh
+    - ./build.sh 1000 ${CI_COMMIT_REF_SLUG} ${BUILD_PHP_VERSION} local
+    - ./build.sh 1000 ${CI_COMMIT_REF_SLUG} ${BUILD_PHP_VERSION} production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:${CI_COMMIT_REF_SLUG}-${BUILD_PHP_VERSION}-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:${CI_COMMIT_REF_SLUG}-${BUILD_PHP_VERSION}-production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-${BUILD_PHP_VERSION}-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-${BUILD_PHP_VERSION}-production
+  only:
+    - master
+
+build_image:
+  stage: build
+  tags:
+    - default
+  only:
+    - tags
+  script:
+    - echo -e "${BLUE}Building image...${NC}"
+    - chmod +x build.sh
+    - ./build.sh 1000 $CI_COMMIT_TAG 7.1 local
+    - ./build.sh 1000 $CI_COMMIT_TAG 7.1 production
+    - ./build.sh 1000 $CI_COMMIT_TAG 7.2 local
+    - ./build.sh 1000 $CI_COMMIT_TAG 7.2 production
+    - ./build.sh 1000 $CI_COMMIT_TAG 7.3 local
+    - ./build.sh 1000 $CI_COMMIT_TAG 7.3 production
+    #- ./build.sh 1000 $CI_COMMIT_TAG 7.4 local
+    #- ./build.sh 1000 $CI_COMMIT_TAG 7.4 production
+    - cowsay -f tux "Build Success"
+
+push_image:
+  stage: push
+  tags:
+    - default
+  only:
+    - tags
+  script:
+    - echo -e "${BLUE}Pushing image into registry...${NC}"
+    - docker push registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.1-local
+    - docker push registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.1-production
+    - docker push registry.sindria.org/docker-images/nginx-php:latest-7.1-local
+    - docker push registry.sindria.org/docker-images/nginx-php:latest-7.1-production
+    - docker push registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.2-local
+    - docker push registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.2-production
+    - docker push registry.sindria.org/docker-images/nginx-php:latest-7.2-local
+    - docker push registry.sindria.org/docker-images/nginx-php:latest-7.2-production
+    - docker push registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.3-local
+    - docker push registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.3-production
+    - docker push registry.sindria.org/docker-images/nginx-php:latest-7.3-local
+    - docker push registry.sindria.org/docker-images/nginx-php:latest-7.3-production
+    #- docker push registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.4-local
+    #- docker push registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.4-production
+    #- docker push registry.sindria.org/docker-images/nginx-php:latest-7.4-local
+    #- docker push registry.sindria.org/docker-images/nginx-php:latest-7.4-production
+    - echo #
+    - echo -e "${BLUE}Cleaning local registry...${NC}"
+    - docker image rm registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.1-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.1-production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-7.1-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-7.1-production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.2-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.2-production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-7.2-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-7.2-production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.3-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.3-production
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-7.3-local
+    - docker image rm registry.sindria.org/docker-images/nginx-php:latest-7.3-production
+    #- docker image rm registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.4-local
+    #- docker image rm registry.sindria.org/docker-images/nginx-php:$CI_COMMIT_TAG-7.4-production
+    #- docker image rm registry.sindria.org/docker-images/nginx-php:latest-7.4-local
+    #- docker image rm registry.sindria.org/docker-images/nginx-php:latest-7.4-production
+    - echo #
+    - cowsay -f dragon "Well Done! New docker image is now on your registry."
+

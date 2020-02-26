@@ -1,11 +1,11 @@
 version: '3.7'
 
 services:
-  # =xdev-php
-  xdev-php:
+  # =xdev
+  xdev:
     image: "${REGISTRY_PREFIX}sindria-xdev-php:${XDEV_PHP_TAG}"
-    container_name: "xdev-php"
-    working_dir: ${XDEV_PHP_WORKING_DIR}
+    container_name: "xdev"
+    working_dir: ${XDEV_WORKING_DIR}
     build:
       context: ./src
       shm_size: '2gb'
@@ -13,11 +13,11 @@ services:
         - HOST_USER_UID=${HOST_USER_UID}
         - HOST_DOCKER_GROUP_UID=${HOST_DOCKER_GROUP_UID}  
         - TIMEZONE=${TIMEZONE}  
-        - XDEV_PHP_WORKING_DIR=${XDEV_PHP_WORKING_DIR}
-        - XDEV_PHP_DISPLAY=${XDEV_PHP_DISPLAY}  
+        - XDEV_WORKING_DIR=${XDEV_WORKING_DIR}
+        - XDEV_DISPLAY=${XDEV_DISPLAY}
         - SINDRIA_USER_PASSWORD=${SINDRIA_USER_PASSWORD}
     environment:
-        - DISPLAY=${XDEV_PHP_DISPLAY}
+        - DISPLAY=${XDEV_DISPLAY}
         - TZ=${TIMEZONE}   
     volumes:
       # System volumes      
@@ -28,23 +28,23 @@ services:
       - "/run/user/${HOST_USER_UID}/pulse:/run/pulse:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
       # Config volumes
-      - "${APP_CONFIG_PATH}/xdev-php:/home/sindria/config"  
+      - "${APP_CONFIG_PATH}/xdev:/home/sindria/config"
       # Working volumes  
       - "${XDEV_PHP_LOCAL_WORKING_DIR}:${XDEV_PHP_WORKING_DIR}"
       - "${XDEV_PHP_LOCAL_SSH_PATH}:${XDEV_PHP_SSH_PATH}"  
-    hostname: "xdev-php.local"
+    hostname: "xdev.local"
     networks:
       default:
         ipv4_address: "${SINDRIADOCK_XDEV_PHP_IP_ADDRESS}"
         aliases:
-          - "xdev-php.local"
+          - "xdev.local"
     devices:
       - "/dev/snd"
 
 # =networks
 networks:
   default:
-    name: "vpc_xdev-php"
+    name: "vpc_xdev"
     driver: bridge
     ipam:
       config:
