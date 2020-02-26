@@ -19,13 +19,13 @@ ENV DOCKER_COMPOSE_VERSION 1.25.4
 ENV TELEGRAM_DESKTOP_VERSION 1.6.7
 ENV FIREFOX_DEVELOPER_VERSION 67.0b16
 ENV MYSQL_WORKBENCH_VERSION 8.0.16-1
-ENV PHPSTORM_VERSION 2019.1.1
+ENV PHPSTORM_VERSION 2019.3.3
 ENV PYCHARM_VERSION 2019.3.3
-ENV IDEA_VERSION 2019.1.1
-ENV WEBSTORM_VERSION 2019.1.1
-ENV GOLAND_VERSION 2019.1.1
-ENV CLION_VERSION 2019.1.1
-ENV DATAGRIP_VERSION 2019.1.1
+ENV IDEA_VERSION 2019.3.3
+ENV WEBSTORM_VERSION 2019.3.3
+ENV GOLAND_VERSION 2019.3.3
+ENV CLION_VERSION 2019.3.3
+ENV DATAGRIP_VERSION 2019.3.3
 
 # Update system
 RUN dnf update -y
@@ -119,45 +119,39 @@ RUN wget https://download-cf.jetbrains.com/python/pycharm-professional-${PYCHARM
     ln -s /opt/pycharm/bin/pycharm.sh /usr/local/bin/pycharm
 
 # Install Idea
-RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-${PHPSTORM_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/PhpStorm-${PHPSTORM_VERSION}.tar.gz -C /opt && \
+RUN wget https://download-cf.jetbrains.com/idea/ideaIU-${IDEA_VERSION}.tar.gz -P /opt && \
+    tar xzf /opt/IdeaIU-${IDEA_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
-    mv /opt/PhpStorm-* /opt/phpstorm && \
-    ln -s /opt/phpstorm/bin/phpstorm.sh /usr/local/bin/phpstorm
+    mv /opt/Idea-* /opt/idea && \
+    ln -s /opt/idea/bin/idea.sh /usr/local/bin/idea
 
 # Install WebStorm
-RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-${PHPSTORM_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/PhpStorm-${PHPSTORM_VERSION}.tar.gz -C /opt && \
+RUN wget https://download-cf.jetbrains.com/webstorm/WebStorm-${WEBSTORM_VERSION}.tar.gz -P /opt && \
+    tar xzf /opt/WebStorm-${WEBSTORM_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
-    mv /opt/PhpStorm-* /opt/phpstorm && \
-    ln -s /opt/phpstorm/bin/phpstorm.sh /usr/local/bin/phpstorm
+    mv /opt/WebStorm-* /opt/webstorm && \
+    ln -s /opt/webstorm/bin/webstorm.sh /usr/local/bin/webstorm
 
 # Install Goland
-RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-${PHPSTORM_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/PhpStorm-${PHPSTORM_VERSION}.tar.gz -C /opt && \
+RUN wget https://download-cf.jetbrains.com/go/goland-${GOLAND_VERSION}.tar.gz -P /opt && \
+    tar xzf /opt/goland-${GOLAND_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
-    mv /opt/PhpStorm-* /opt/phpstorm && \
-    ln -s /opt/phpstorm/bin/phpstorm.sh /usr/local/bin/phpstorm
+    mv /opt/goland-* /opt/goland && \
+    ln -s /opt/goland/bin/goland.sh /usr/local/bin/goland
 
 # Install CLion
-RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-${PHPSTORM_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/PhpStorm-${PHPSTORM_VERSION}.tar.gz -C /opt && \
+RUN wget https://download-cf.jetbrains.com/cpp/CLion-${CLION_VERSION}.tar.gz -P /opt && \
+    tar xzf /opt/CLion-${CLION_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
-    mv /opt/PhpStorm-* /opt/phpstorm && \
-    ln -s /opt/phpstorm/bin/phpstorm.sh /usr/local/bin/phpstorm
+    mv /opt/CLion-* /opt/clion && \
+    ln -s /opt/clion/bin/clion.sh /usr/local/bin/clion
 
 # Install DataGrip
-RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-${PHPSTORM_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/PhpStorm-${PHPSTORM_VERSION}.tar.gz -C /opt && \
+RUN wget https://download-cf.jetbrains.com/datagrip/datagrip-${DATAGRIP_VERSION}.tar.gz -P /opt && \
+    tar xzf /opt/datagrip-${DATAGRIP_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
-    mv /opt/PhpStorm-* /opt/phpstorm && \
-    ln -s /opt/phpstorm/bin/phpstorm.sh /usr/local/bin/phpstorm
-
-
-# Setting up volume
-#RUN mkdir -p ${XDEV_PHP_WORKING_DIR}
-#RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${XDEV_PHP_WORKING_DIR}
-#VOLUME ${XDEV_PHP_WORKING_DIR}
+    mv /opt/datagrip-* /opt/datagrip && \
+    ln -s /opt/datagrip/bin/datagrip.sh /usr/local/bin/datagrip
 
 # Reset permission
 RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
