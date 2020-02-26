@@ -27,15 +27,12 @@ ENV GOLAND_VERSION 2019.3.3
 ENV CLION_VERSION 2019.3.3
 ENV DATAGRIP_VERSION 2019.3.3
 
-# Update system
-RUN dnf update -y
 
-# Install base software
-RUN dnf install curl wget tmux vim unzip supervisor git sudo zsh iputils htop net-tools bzip2 -y && \
+# Update system, install base software and set timezone
+RUN dnf update -y && \
+    dnf install curl wget tmux vim unzip supervisor git sudo zsh iputils htop net-tools bzip2 -y && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     dnf clean all
-
-# Set timezone
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Adding sindria user
 RUN useradd ${SINDRIA_USER} -u ${HOST_USER_UID} -m -d ${SINDRIA_USER_HOME} -s /bin/zsh && \
