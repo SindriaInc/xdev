@@ -2,17 +2,17 @@
 ARG FEDORA_VERSION
 FROM fedora:${FEDORA_VERSION}
 
+ARG TAG_VERSION
 ARG HOST_USER_UID
 ARG HOST_DOCKER_GROUP_UID
 ARG TIMEZONE
-ARG XDEV_PHP_WORKING_DIR
-ARG XDEV_PHP_DISPLAY
-ARG SINDRIA_USER_PASSWORD
+ARG XDEV_DISPLAY
+ARG XDEV_SINDRIA_USER_PASSWORD
 
 ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
 ENV SUDO_GROUP wheel
-ENV DISPLAY ${XDEV_PHP_DISPLAY}
+ENV DISPLAY ${XDEV_DISPLAY}
 ENV TZ ${TIMEZONE}
 
 ENV DOCKER_COMPOSE_VERSION 1.25.4
@@ -27,6 +27,11 @@ ENV GOLAND_VERSION 2019.3.3
 ENV CLION_VERSION 2019.3.3
 ENV DATAGRIP_VERSION 2019.3.3
 
+LABEL \
+	name="xdev" \
+	image="sindriainc/xdev" \
+	tag="${TAG_VERSION}" \
+	vendor="sindria"
 
 # Update system, install base software and set timezone
 RUN dnf update -y && \
@@ -40,7 +45,7 @@ RUN useradd ${SINDRIA_USER} -u ${HOST_USER_UID} -m -d ${SINDRIA_USER_HOME} -s /b
     mkdir -p ${SINDRIA_USER_HOME}/config && \
     chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME} && \
     usermod -a -G ${SUDO_GROUP} ${SINDRIA_USER} && \
-    echo "${SINDRIA_USER_PASSWORD}:${SINDRIA_USER}" | chpasswd && \
+    echo "${XDEV_SINDRIA_USER_PASSWORD}:${SINDRIA_USER}" | chpasswd && \
     chmod 644 /etc/sudoers
 
 COPY ./etc/sudoers /etc/sudoers

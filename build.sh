@@ -10,30 +10,24 @@ if [[ -z "$2" ]]; then
     exit 1
 fi
 
-
-if [[ -z "$3" ]]; then
-    echo "Provide a valid php version as third argument (5.6 7.0 7.1 7.2 7.3 7.4)"
-    exit 1
-fi
-
-if [[ -z "$4" ]]; then
-    echo "Provide a tag env as fourth argument (local or production)"
-    exit 1
-fi
-
-IMAGE_NAME="registry.sindria.org/docker-images/nginx-php"
+IMAGE_NAME="sindriainc/xdev"
 
 HOST_USER_UID=$1
 TAG_VERSION=$2
-TAG_SUFFIX=$3
-TAG_ENV=$4
+
 TIMEZONE=Europe/Rome
+FEDORA_VERSION=31
+HOST_DOCKER_GROUP_UID=975
+XDEV_SINDRIA_USER_PASSWORD=sindria
+XDEV_DISPLAY=:0.0
 
 docker build ./src \
-    --tag ${IMAGE_NAME}:${TAG_VERSION}-${TAG_SUFFIX}-${TAG_ENV} \
-    --tag ${IMAGE_NAME}:latest-${TAG_SUFFIX}-${TAG_ENV} \
+    --tag ${IMAGE_NAME}:${TAG_VERSION} \
+    --tag ${IMAGE_NAME}:latest \
     --build-arg TAG_VERSION=${TAG_VERSION} \
-    --build-arg TAG_SUFFIX=${TAG_SUFFIX} \
-    --build-arg TAG_ENV=${TAG_ENV} \
+    --build-arg FEDORA_VERSION=${FEDORA_VERSION} \
     --build-arg HOST_USER_UID=${HOST_USER_UID} \
+    --build-arg HOST_DOCKER_GROUP_UID=${HOST_DOCKER_GROUP_UID} \
+    --build-arg XDEV_SINDRIA_USER_PASSWORD=${XDEV_SINDRIA_USER_PASSWORD} \
+    --build-arg XDEV_DISPLAY=${XDEV_DISPLAY} \
     --build-arg TIMEZONE=${TIMEZONE}
