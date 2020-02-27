@@ -39,15 +39,16 @@ RUN dnf update -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     dnf clean all
 
+COPY resources/etc/sudoers /etc/sudoers
+
 # Adding sindria user
 RUN useradd ${SINDRIA_USER} -u ${HOST_USER_UID} -m -d ${SINDRIA_USER_HOME} -s /bin/zsh && \
     groupmod ${SINDRIA_USER} -g ${HOST_USER_UID} && \
     mkdir -p ${SINDRIA_USER_HOME}/config && \
     chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME} && \
     usermod -a -G ${SUDO_GROUP} ${SINDRIA_USER} && \
-    echo "${XDEV_SINDRIA_USER_PASSWORD}:${SINDRIA_USER}" | chpasswd
-
-COPY resources/etc/sudoers /etc/sudoers
+    echo "${XDEV_SINDRIA_USER_PASSWORD}:${SINDRIA_USER}" | chpasswd && \
+    chmod 644 /etc/sudoers
 
 # Install docker and docker-compose
 RUN dnf -y install dnf-plugins-core && \
