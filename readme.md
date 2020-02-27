@@ -23,6 +23,7 @@ Visit [GitHub](https://github.com/SindriaInc/xdev) Page.
 - GoLand
 - Clion
 - DataGrip
+- I3 WM
 
 # Requirements
 
