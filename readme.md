@@ -1,6 +1,6 @@
 # Xdev
 
-A complete GUI dev environment docker image with all software you needed.
+A complete GUI dev environment docker image with all the software you need.
 
 # Information
 
