@@ -123,9 +123,9 @@ RUN wget https://download-cf.jetbrains.com/python/pycharm-professional-${PYCHARM
 
 # Install Idea
 RUN wget https://download-cf.jetbrains.com/idea/ideaIU-${IDEA_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/IdeaIU-${IDEA_VERSION}.tar.gz -C /opt && \
+    tar xzf /opt/ideaIU-${IDEA_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
-    mv /opt/Idea-* /opt/idea && \
+    mv /opt/idea-* /opt/idea && \
     ln -s /opt/idea/bin/idea.sh /usr/local/bin/idea
 
 # Install WebStorm
