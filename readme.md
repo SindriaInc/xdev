@@ -2,6 +2,32 @@
 
 A complete GUI dev environment docker image with all software you needed.
 
+# Information
+
+- Fedora 31
+- Oh My Zsh
+- Docker
+- Docker Compose
+- Telegram Desktop
+- Firefox Developer
+- Terminator
+- Flux
+- Sublime Text
+- Mysql WorkBench
+- PhpStorm
+- PyCharm
+- IntelliJ Idea
+- WebStorm
+- GoLand
+- Clion
+- DataGrip
+
+# Requirements
+
+- Docker CE
+- Docker Compose
+- Xorg
+
 # Usage
 
 ## Configuration
@@ -9,7 +35,7 @@ A complete GUI dev environment docker image with all software you needed.
 - Setup file env: `cp .env.example .env`
 - Setup Docker Compose `cp docker-compose.example.yml docker-compose.yml`
 
-## Without DE
+### Without DE
  
 - Bootstrap environment: `docker-compose up -d`
 
