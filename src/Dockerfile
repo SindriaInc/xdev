@@ -139,7 +139,7 @@ RUN wget https://download-cf.jetbrains.com/webstorm/WebStorm-${WEBSTORM_VERSION}
 RUN wget https://download-cf.jetbrains.com/go/goland-${GOLAND_VERSION}.tar.gz -P /opt && \
     tar xzf /opt/goland-${GOLAND_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
-    mv /opt/goland-* /opt/goland && \
+    mv /opt/GoLand-* /opt/goland && \
     ln -s /opt/goland/bin/goland.sh /usr/local/bin/goland
 
 # Install CLion
@@ -153,7 +153,7 @@ RUN wget https://download-cf.jetbrains.com/cpp/CLion-${CLION_VERSION}.tar.gz -P 
 RUN wget https://download-cf.jetbrains.com/datagrip/datagrip-${DATAGRIP_VERSION}.tar.gz -P /opt && \
     tar xzf /opt/datagrip-${DATAGRIP_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
-    mv /opt/datagrip-* /opt/datagrip && \
+    mv /opt/DataGrip-* /opt/datagrip && \
     ln -s /opt/datagrip/bin/datagrip.sh /usr/local/bin/datagrip
 
 # Reset permission
