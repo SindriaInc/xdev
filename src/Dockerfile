@@ -103,7 +103,7 @@ RUN rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg && \
 
 # Install Mysql Workbench
 RUN wget https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc31.x86_64.rpm -P /home/sindria && \
-    dnf install /home/sindria/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc${FEDORA_VERSION}.x86_64.rpm -y && \
+    dnf install /home/sindria/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc31.x86_64.rpm -y && \
     rm -rf /home/sindria/*.rpm && \
     dnf clean all
 
