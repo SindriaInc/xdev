@@ -25,7 +25,7 @@ ENV PYCHARM_VERSION 2019.3.3
 ENV IDEA_VERSION 2019.3.3
 ENV WEBSTORM_VERSION 2019.3.3
 ENV GOLAND_VERSION 2019.3.2
-ENV CLION_VERSION 2019.3.3
+ENV CLION_VERSION 2019.3.4
 ENV DATAGRIP_VERSION 2019.3.3
 
 LABEL \
@@ -146,7 +146,7 @@ RUN wget https://download-cf.jetbrains.com/go/goland-${GOLAND_VERSION}.tar.gz -P
 RUN wget https://download-cf.jetbrains.com/cpp/CLion-${CLION_VERSION}.tar.gz -P /opt && \
     tar xzf /opt/CLion-${CLION_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
-    mv /opt/CLion-* /opt/clion && \
+    mv /opt/clion-* /opt/clion && \
     ln -s /opt/clion/bin/clion.sh /usr/local/bin/clion
 
 # Install DataGrip
