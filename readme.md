@@ -1,6 +1,8 @@
 # Xdev
 
-A complete GUI dev environment docker image with all the software you need.
+A complete GUI dev environment docker image with all the software you need. 
+
+Visit [GitHub](https://github.com/SindriaInc/xdev) Page.
 
 # Information
 
@@ -44,3 +46,7 @@ A complete GUI dev environment docker image with all the software you need.
 - Enter in TTY mode: `CTRL + ALT + F3`
 - Export a new display: `export DISPLAY=:1`
 - Bootstrap environment: `docker-compose up -d`
+
+# License
+
+This software is release open source under [GPL](LICENSE) license.
