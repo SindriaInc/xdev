@@ -45,10 +45,9 @@ RUN useradd ${SINDRIA_USER} -u ${HOST_USER_UID} -m -d ${SINDRIA_USER_HOME} -s /b
     mkdir -p ${SINDRIA_USER_HOME}/config && \
     chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME} && \
     usermod -a -G ${SUDO_GROUP} ${SINDRIA_USER} && \
-    echo "${XDEV_SINDRIA_USER_PASSWORD}:${SINDRIA_USER}" | chpasswd && \
-    chmod 644 /etc/sudoers
+    echo "${XDEV_SINDRIA_USER_PASSWORD}:${SINDRIA_USER}" | chpasswd
 
-COPY ./etc/sudoers /etc/sudoers
+COPY resources/etc/sudoers /etc/sudoers
 
 # Install docker and docker-compose
 RUN dnf -y install dnf-plugins-core && \
@@ -73,7 +72,7 @@ RUN dnf install i3 i3lock feh scrot xbacklight cmatrix lxrandr pcmanfm alsa-util
     rm -rf /usr/local/bin/xflux.tgz && \
     dnf clean all
 
-COPY ./i3/config /home/sindria/.config/i3
+COPY resources/i3/config /home/sindria/.config/i3
 
 # Install Telegram Desktop
 RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.tar.xz -P /home/sindria/ && \
