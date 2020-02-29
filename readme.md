@@ -98,7 +98,9 @@ Save it to one of the following locations:
 
 ### Via PowerShell
 
-- Setup Display: `set-variable -name DISPLAY -value <ip-address>:0.0` eg. `set-variable -name DISPLAY -value 192.168.1.100:0.0`
+- Setup Display: `set-variable -name DISPLAY -value <ip-address>:0.0` 
+
+    eg. `set-variable -name DISPLAY -value 192.168.1.100:0.0`
 
 - Setup file env: `cp .env.example .env` (eg. XDEV_DISPLAY=192.168.1.100:0.0)
 
