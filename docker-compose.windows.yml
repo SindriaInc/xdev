@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  # =xdev
+  xdev:
+    image: "sindriainc/xdev:${XDEV_TAG}"
+    container_name: "xdev"
+    working_dir: ${XDEV_WORKING_DIR}
+    environment:
+        - DISPLAY=${XDEV_DISPLAY}
+        - TZ=${TIMEZONE}   
+    volumes:
+      # System volumes      
+      #- "/dev/shm:/dev/shm"
+      #- "/tmp/.X11-unix:/tmp/.X11-unix"
+      #- "/dev/snd:/dev/snd"
+      #- "/dev/dri:/dev/dri"
+      #- "/run/user/${HOST_USER_UID}/pulse:/run/pulse:ro"
+      #- "/var/run/docker.sock:/var/run/docker.sock"
+      # Config volumes
+      - "${APP_CONFIG_PATH}/xdev:/home/sindria/config"
+      # Working volumes  
+      - "${XDEV_LOCAL_WORKING_DIR}:${XDEV_WORKING_DIR}"
+      - "${XDEV_LOCAL_SSH_PATH}:${XDEV_SSH_PATH}"
+    hostname: "xdev.local"
+    networks:
+      default:
+        ipv4_address: "${SINDRIADOCK_XDEV_IP_ADDRESS}"
+        aliases:
+          - "xdev.local"
+
+# =networks
+networks:
+  default:
+    name: "vpc_xdev"
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SINDRIADOCK_NETWORK_SUBNET}
