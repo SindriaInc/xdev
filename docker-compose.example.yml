@@ -8,7 +8,7 @@ services:
     working_dir: ${XDEV_WORKING_DIR}
     environment:
         - DISPLAY=${XDEV_DISPLAY}
-        - TZ=${TIMEZONE}   
+        - TZ=${TIMEZONE}
     volumes:
       # System volumes      
       - "/dev/shm:/dev/shm"
