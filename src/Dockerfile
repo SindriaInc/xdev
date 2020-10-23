@@ -38,6 +38,7 @@ LABEL \
 # Update system, install base software and set timezone
 RUN dnf update -y && \
     rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-32.noarch.rpm && \
+    dnf copr enable fuhrmann/i3-gaps && \
     dnf install curl wget tmux vim unzip supervisor git sudo zsh iputils telnet htop net-tools openvpn bzip2 -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     dnf clean all
@@ -64,7 +65,7 @@ RUN dnf -y install dnf-plugins-core && \
     dnf clean all
 
 # Install i3, utility and fonts
-RUN dnf install i3 i3-gaps i3lock feh xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts -y && \
+RUN dnf install i3-gaps i3lock feh xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts -y && \
     mkdir -p /home/sindria/.config && \
     mkdir -p /home/sindria/.config/i3 && \
     mkdir -p /home/sindria/Pictures && \
