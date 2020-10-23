@@ -18,6 +18,7 @@ ENV TZ ${TIMEZONE}
 
 ENV DOCKER_COMPOSE_VERSION 1.27.4
 ENV TELEGRAM_DESKTOP_VERSION 2.4.3
+ENV DISCORD_VERSION 0.0.12-1 
 ENV FIREFOX_DEVELOPER_VERSION 83.0b2
 ENV MYSQL_WORKBENCH_VERSION 8.0.22-1
 ENV PHPSTORM_VERSION 2020.2.3
@@ -37,7 +38,7 @@ LABEL \
 # Update system, install base software and set timezone
 RUN dnf update -y && \
     rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-32.noarch.rpm && \
-    dnf install curl wget tmux vim unzip supervisor git sudo zsh iputils telnet htop net-tools bzip2 -y && \
+    dnf install curl wget tmux vim unzip supervisor git sudo zsh iputils telnet htop net-tools openvpn bzip2 -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     dnf clean all
 
@@ -63,7 +64,7 @@ RUN dnf -y install dnf-plugins-core && \
     dnf clean all
 
 # Install i3, utility and fonts
-RUN dnf install i3 i3lock feh xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts -y && \
+RUN dnf install i3 i3-gaps i3lock feh xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts -y && \
     mkdir -p /home/sindria/.config && \
     mkdir -p /home/sindria/.config/i3 && \
     mkdir -p /home/sindria/Pictures && \
@@ -89,7 +90,9 @@ RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.
 
 # Install Discord
 RUN dnf update -y && \
-    #dnf install -y discord && \
+    wget https://download1.rpmfusion.org/nonfree/fedora/updates/32/x86_64/d/discord-${DISCORD_VERSION}.fc32.x86_64.rpm && \
+    dnf install /home/sindria/discord-${DISCORD_VERSION}.fc32.x86_64.rpm -y && \
+    rm -rf /home/sindria/*.rpm && \
     dnf clean all
 
 # Install firefox developer edition
