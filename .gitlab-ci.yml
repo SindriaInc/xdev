@@ -1,4 +1,4 @@
-image: registry.sindria.org/docker-images/image-builder:1.1.0
+image: registry.sindria.org/devops/base-images/image-builder:latest
 
 stages:
   - build
@@ -21,8 +21,7 @@ build:image:
     - *set_colors
   script:
     - echo -e "${BLUE}Building image...${NC}"
-    - chmod +x build.sh
-    - ./build.sh 1000 $CI_COMMIT_TAG
+    - bash build.sh 1000 $CI_COMMIT_TAG
     - cowsay -f tux "Build Success"
 
 push:image:

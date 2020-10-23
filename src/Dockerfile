@@ -16,17 +16,17 @@ ENV SUDO_GROUP wheel
 ENV DISPLAY ${XDEV_DISPLAY}
 ENV TZ ${TIMEZONE}
 
-ENV DOCKER_COMPOSE_VERSION 1.25.4
-ENV TELEGRAM_DESKTOP_VERSION 1.9.14
-ENV FIREFOX_DEVELOPER_VERSION 74.0b8
-ENV MYSQL_WORKBENCH_VERSION 8.0.19-1
-ENV PHPSTORM_VERSION 2019.3.3
-ENV PYCHARM_VERSION 2019.3.3
-ENV IDEA_VERSION 2019.3.3
-ENV WEBSTORM_VERSION 2019.3.3
-ENV GOLAND_VERSION 2019.3.2
-ENV CLION_VERSION 2019.3.4
-ENV DATAGRIP_VERSION 2019.3.3
+ENV DOCKER_COMPOSE_VERSION 1.27.4
+ENV TELEGRAM_DESKTOP_VERSION 2.4.3
+ENV FIREFOX_DEVELOPER_VERSION 83.0b2
+ENV MYSQL_WORKBENCH_VERSION 8.0.22-1
+ENV PHPSTORM_VERSION 2020.2.3
+ENV PYCHARM_VERSION 2020.2.3
+ENV IDEA_VERSION 2020.2.3
+ENV WEBSTORM_VERSION 2020.2.3
+ENV GOLAND_VERSION 2020.2.3
+ENV CLION_VERSION 2020.2.4
+ENV DATAGRIP_VERSION 2020.2.3
 
 LABEL \
 	name="xdev" \
@@ -36,7 +36,7 @@ LABEL \
 
 # Update system, install base software and set timezone
 RUN dnf update -y && \
-    dnf install curl wget tmux vim unzip supervisor git sudo zsh iputils htop net-tools bzip2 -y && \
+    dnf install curl wget tmux vim unzip supervisor git sudo zsh iputils telnet htop net-tools bzip2 -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     dnf clean all
 
@@ -86,6 +86,10 @@ RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.
     chown root:${SINDRIA_USER} /var/cache/fontconfig && \
     chmod 775 /var/cache/fontconfig
 
+# Install Discord
+RUN dnf install -y discord && \
+    dnf clean all
+
 # Install firefox developer edition
 RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FIREFOX_DEVELOPER_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_DEVELOPER_VERSION}.tar.bz2 -P /opt && \
     bzip2 -d /opt/firefox-${FIREFOX_DEVELOPER_VERSION}.tar.bz2 && \
@@ -102,8 +106,8 @@ RUN rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg && \
     dnf clean all
 
 # Install Mysql Workbench
-RUN wget https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc31.x86_64.rpm -P /home/sindria && \
-    dnf install /home/sindria/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc31.x86_64.rpm -y && \
+RUN wget https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc32.x86_64.rpm -P /home/sindria && \
+    dnf install /home/sindria/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc32.x86_64.rpm -y && \
     rm -rf /home/sindria/*.rpm && \
     dnf clean all
 
