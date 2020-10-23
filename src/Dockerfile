@@ -89,7 +89,7 @@ RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.
 
 # Install Discord
 RUN dnf update -y && \
-    dnf install -y discord && \
+    #dnf install -y discord && \
     dnf clean all
 
 # Install firefox developer edition
