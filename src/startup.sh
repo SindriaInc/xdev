@@ -14,7 +14,7 @@ fi
 
 
 # Override docker host uid by env
-if [ "$HOST_DOCKER_GROUP_UID" != "998" ]; then
+if [ "$HOST_DOCKER_GROUP_UID" != "975" ]; then
     groupmod -g ${HOST_DOCKER_GROUP_UID} docker
 fi
 
