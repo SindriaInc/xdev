@@ -65,7 +65,7 @@ RUN dnf -y install dnf-plugins-core && \
     dnf clean all
 
 # Install i3, utility and fonts
-RUN dnf install i3 i3lock feh xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts -y && \
+RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts -y && \
     mkdir -p /home/sindria/.config && \
     mkdir -p /home/sindria/.config/i3 && \
     mkdir -p /home/sindria/Pictures && \
@@ -90,11 +90,11 @@ RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.
     chmod 775 /var/cache/fontconfig
 
 # Install Discord
-RUN dnf update -y && \
-    wget https://download1.rpmfusion.org/nonfree/fedora/updates/32/x86_64/d/discord-${DISCORD_VERSION}.fc32.x86_64.rpm && \
-    dnf install /home/sindria/discord-${DISCORD_VERSION}.fc32.x86_64.rpm -y && \
-    rm -rf /home/sindria/*.rpm && \
-    dnf clean all
+#RUN dnf update -y && \
+#    wget https://download1.rpmfusion.org/nonfree/fedora/updates/32/x86_64/d/discord-${DISCORD_VERSION}.fc32.x86_64.rpm && \
+#    dnf install /home/sindria/discord-${DISCORD_VERSION}.fc32.x86_64.rpm -y && \
+#    rm -rf /home/sindria/*.rpm && \
+#    dnf clean all
 
 # Install firefox developer edition
 RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FIREFOX_DEVELOPER_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_DEVELOPER_VERSION}.tar.bz2 -P /opt && \
