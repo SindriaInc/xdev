@@ -4,9 +4,13 @@ services:
   # =xdev
   xdev:
     image: "sindriainc/xdev:${XDEV_TAG}"
-    container_name: "xdev"
+    container_name: "${APP_NAME}"
+    #user: sindria
     working_dir: ${XDEV_WORKING_DIR}
     environment:
+        - XDEV_SINDRIA_USER_PASSWORD=${XDEV_SINDRIA_USER_PASSWORD}
+        - HOST_USER_UID=${HOST_USER_UID}  
+        - HOST_DOCKER_GROUP_UID=${HOST_DOCKER_GROUP_UID}
         - DISPLAY=${XDEV_DISPLAY}
         - TZ=${TIMEZONE}
     volumes:
@@ -21,8 +25,7 @@ services:
       #- "${APP_CONFIG_PATH}/xdev:/home/sindria/config"
       # Working volumes  
       - "${XDEV_LOCAL_WORKING_DIR}:${XDEV_WORKING_DIR}"
-      - "${XDEV_LOCAL_SSH_PATH}:${XDEV_SSH_PATH}"
-    hostname: "xdev.local"
+    hostname: "${APP_NAME}.local"
     network_mode: "host"
     cap_add:
       - NET_ADMIN
@@ -30,7 +33,7 @@ services:
     #  default:
     #    ipv4_address: "${XDEV_IP_ADDRESS}"
     #    aliases:
-    #      - "xdev.local"
+    #      - "${APP_NAME}.local"
     devices:
       - "/dev/snd"
 
