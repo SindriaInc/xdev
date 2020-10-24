@@ -14,13 +14,13 @@ fi
 
 
 # Override docker host uid by env
-if [ "$HOST_DOCKER_GROUP_UID" != "975" ]; then
-    groupmod docker -g $HOST_DOCKER_GROUP_UID
+if [ "$HOST_DOCKER_GROUP_UID" != "998" ]; then
+    groupmod -g ${HOST_DOCKER_GROUP_UID} docker
 fi
 
 
 # Override timezone by env
-if [ "$TZ" != "" ] || [ "$TZ" != "Europe/Rome" ]; then
+if [ "$TZ" != "Europe/Rome" ]; then
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 fi
 

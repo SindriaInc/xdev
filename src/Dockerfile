@@ -10,11 +10,14 @@ ARG XDEV_DISPLAY
 ARG XDEV_SINDRIA_USER_PASSWORD
 
 ENV FEDORA_VERSION ${FEDORA_VERSION}
+ENV HOST_USER_UID ${HOST_USER_UID}
+ENV HOST_DOCKER_GROUP_UID ${HOST_DOCKER_GROUP_UID}
 ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
+ENV TZ ${TIMEZONE}
 ENV SUDO_GROUP wheel
 ENV DISPLAY ${XDEV_DISPLAY}
-ENV TZ ${TIMEZONE}
+ENV XDEV_SINDRIA_USER_PASSWORD ${XDEV_SINDRIA_USER_PASSWORD}
 
 ENV DOCKER_COMPOSE_VERSION 1.27.4
 ENV TELEGRAM_DESKTOP_VERSION 2.4.3
@@ -25,6 +28,7 @@ ENV PHPSTORM_VERSION 2020.2.3
 ENV PYCHARM_VERSION 2020.2.3
 ENV IDEA_VERSION 2020.2.3
 ENV WEBSTORM_VERSION 2020.2.3
+ENV RUBYMINE_VERSION 2020.2.3
 ENV GOLAND_VERSION 2020.2.3
 ENV CLION_VERSION 2020.2.4
 ENV DATAGRIP_VERSION 2020.2.3
@@ -51,7 +55,7 @@ RUN useradd ${SINDRIA_USER} -u ${HOST_USER_UID} -m -d ${SINDRIA_USER_HOME} -s /b
     mkdir -p ${SINDRIA_USER_HOME}/config && \
     chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME} && \
     usermod -a -G ${SUDO_GROUP} ${SINDRIA_USER} && \
-    echo "${XDEV_SINDRIA_USER_PASSWORD}:${SINDRIA_USER}" | chpasswd && \
+    echo "${SINDRIA_USER}:${XDEV_SINDRIA_USER_PASSWORD}" | chpasswd && \
     chmod 644 /etc/sudoers
 
 # Install docker and docker-compose
@@ -144,6 +148,13 @@ RUN wget https://download-cf.jetbrains.com/webstorm/WebStorm-${WEBSTORM_VERSION}
     rm -rf /opt/*.tar.gz && \
     mv /opt/WebStorm-* /opt/webstorm && \
     ln -s /opt/webstorm/bin/webstorm.sh /usr/local/bin/webstorm
+
+# Install Rubymine
+RUN wget https://download-cf.jetbrains.com/ruby/RubyMine-${RUBYMINE_VERSION}.tar.gz -P /opt && \
+    tar xzf /opt/RubyMine-${RUBYMINE_VERSION}.tar.gz -C /opt && \
+    rm -rf /opt/*.tar.gz && \
+    mv /opt/RubyMine-* /opt/rubymine && \
+    ln -s /opt/rubymine/bin/rubymine.sh /usr/local/bin/rubymine
 
 # Install Goland
 RUN wget https://download-cf.jetbrains.com/go/goland-${GOLAND_VERSION}.tar.gz -P /opt && \
