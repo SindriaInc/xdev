@@ -24,7 +24,7 @@ font pango:monospace 8
 # The font above is very space-efficient, that is, it looks good, sharp and
 # clear in small sizes. However, its unicode glyph coverage is limited, the old
 # X core fonts rendering does not support right-to-left and this being a bitmap
-# font, it doesn’t scale on retina/hidpi displays.
+# font, it doesnt scale on retina/hidpi displays.
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -95,10 +95,24 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
+
+# Default
+#set $ws1 "1"
+#set $ws2 "2"
+#set $ws3 "3"
+#set $ws4 "4"
+#set $ws5 "5"
+#set $ws6 "6"
+#set $ws7 "7"
+#set $ws8 "8"
+#set $ws9 "9"
+#set $ws10 "10"
+
+# Custom
+set $ws1 "1 Telegram"
+set $ws2 "2 Browser"
+set $ws3 "3 Terminal"
+set $ws4 "4 IDE"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
@@ -138,8 +152,8 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # Lock screen
-bindsym $mod+l exec i3lock -c ffffff -i ~/Pictures/Wallpapers/lock.png -p win -n -t 
-#byndsym $mod+l exec --no-startup-id ~/bin/matrixlock.sh
+bindsym $mod+l exec i3lock -c ffffff -i /home/sindria/Pictures/Wallpapers/lock.png -p win -n -t
+#byndsym $mod+l exec --no-startup-id /bin/matrixlock.sh
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl -- set-sink-volume 0 +5% #increase sound volume
@@ -161,10 +175,10 @@ focus_follows_mouse no
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
+        # Pressing left will shrink the windows width.
+        # Pressing right will grow the windows width.
+        # Pressing up will shrink the windows height.
+        # Pressing down will grow the windows height.
         bindsym j resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym l resize shrink height 10 px or 10 ppt
@@ -188,14 +202,38 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
+        # Height in pixels
+    	#height 25
+	    position bottom
         status_command i3status
 }
 
+# You can also use any non-zero value if you'd like to have a border
+for_window [class=".*"] border pixel 0
+
+# Only enable gaps on a workspace when there is at least one container
+smart_gaps on
+
+gaps inner 10
+gaps outer 25
+
+# Only enable outer gaps when there is exactly one container
+smart_gaps inverse_outer
+
+# Activate smart borders (always)
+smart_borders on
+
+# Activate smart borders (only when there are effectively no gaps)
+#smart_borders no_gaps
+
+# Assign programs to specific workspace
+#assign [class="Chromium"] Browser
+#assign [class="Thunar"] FileManager
 
 # Startup Applications
 
 # Monitors
-#exec --no-startup-id xrandr --output HDMI-1 --above eDP-1
+exec --no-startup-id xrandr --output HDMI-1 --above eDP-1
 
 # Power management
 exec --no-startup-id xset s off         # don't activate screensaver.
@@ -206,12 +244,11 @@ exec --no-startup-id xset s noblank     # don't blank the video device.
 exec --no-startup-id xflux -l 45
 
 # Wallpaper
-# exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/bg.jpg
-exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpapers/*
+exec --no-startup-id feh --bg-fill /home/sindria/Pictures/Wallpapers/bg.jpg
+#exec --no-startup-id feh --randomize --bg-fill /home/sindria/Pictures/Wallpapers/*
 
 # Compton
-#exec --no-startup-id compton --config ~/.config/i3/compton.conf
+#exec --no-startup-id compton --config /.config/i3/compton.conf
 
 # Telegram
 exec --no-startup-id telegram-desktop
-

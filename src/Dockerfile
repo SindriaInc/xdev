@@ -43,7 +43,7 @@ LABEL \
 RUN dnf update -y && \
     rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-32.noarch.rpm && \
     #dnf copr enable fuhrmann/i3-gaps && \
-    dnf install curl wget tmux vim unzip supervisor git sudo zsh iputils telnet htop net-tools openvpn bzip2 -y && \
+    dnf install curl wget tmux screen vim unzip supervisor git sudo zsh iputils telnet htop net-tools hostname openvpn bzip2 -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     dnf clean all
 
@@ -72,6 +72,7 @@ RUN dnf -y install dnf-plugins-core && \
 RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts -y && \
     mkdir -p /home/sindria/.config && \
     mkdir -p /home/sindria/.config/i3 && \
+    mkdir -p /home/sindria/Projects && \
     mkdir -p /home/sindria/Pictures && \
     mkdir -p /home/sindria/Pictures/Screenshots && \
     mkdir -p /home/sindria/Pictures/Wallpapers && \
@@ -82,6 +83,7 @@ RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm 
     dnf clean all
 
 COPY resources/i3/config /home/sindria/.config/i3
+COPY resources/i3/wallpapers /home/sindria/Pictures/Wallpapers
 
 # Install Telegram Desktop
 RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.tar.xz -P /home/sindria/ && \
