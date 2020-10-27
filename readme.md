@@ -18,6 +18,7 @@ A complete GUI dev environment docker image with all the software you need.
 - PyCharm
 - IntelliJ Idea
 - WebStorm
+- RubyMine
 - GoLand
 - Clion
 - DataGrip
@@ -39,7 +40,7 @@ A complete GUI dev environment docker image with all the software you need.
 
 ### Without DE
 
-- Setup Xauthority: `vim ~/.Xauthority` 
+- Setup Xauthority: `xhost +` 
 
 - Bootstrap environment: `docker-compose up -d`
 

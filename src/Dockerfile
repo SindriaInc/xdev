@@ -43,7 +43,7 @@ LABEL \
 RUN dnf update -y && \
     rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-32.noarch.rpm && \
     #dnf copr enable fuhrmann/i3-gaps && \
-    dnf install curl wget tmux screen vim unzip supervisor git sudo zsh iputils telnet htop net-tools hostname openvpn bzip2 -y && \
+    dnf install curl wget tmux screen vim unzip supervisor git sudo zsh procps iputils telnet htop net-tools hostname openvpn bzip2 -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     dnf clean all
 
@@ -151,7 +151,7 @@ RUN wget https://download-cf.jetbrains.com/webstorm/WebStorm-${WEBSTORM_VERSION}
     mv /opt/WebStorm-* /opt/webstorm && \
     ln -s /opt/webstorm/bin/webstorm.sh /usr/local/bin/webstorm
 
-# Install Rubymine
+# Install RubyMine
 RUN wget https://download-cf.jetbrains.com/ruby/RubyMine-${RUBYMINE_VERSION}.tar.gz -P /opt && \
     tar xzf /opt/RubyMine-${RUBYMINE_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
