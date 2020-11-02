@@ -42,7 +42,6 @@ LABEL \
 # Update system, install base software and set timezone
 RUN dnf update -y && \
     rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-32.noarch.rpm && \
-    #dnf copr enable fuhrmann/i3-gaps && \
     dnf install curl wget tmux screen vim unzip supervisor git sudo zsh procps iputils telnet htop net-tools hostname openvpn bzip2 -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     dnf clean all
