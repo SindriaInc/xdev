@@ -8,7 +8,7 @@ A complete GUI dev workstation environment docker image with all the software yo
 
 With xdev you can run linux workstation everywhere you have docker daemon ready out of the box with the following contents:
 
-- Fedora 31
+- Fedora 32
 - Oh My Zsh
 - Docker
 - Docker Compose
