@@ -36,7 +36,7 @@ With xdev you can run linux workstation everywhere you have docker daemon ready 
 
 ## Setup
 
-- Goto under deployments folder
+- Goto under deployment folder
 - Setup file env: `cp .env.example .env`
 - Setup Docker Compose `cp docker-compose.example.yml docker-compose.yml`
 - Run: `docker-compose up -d`
