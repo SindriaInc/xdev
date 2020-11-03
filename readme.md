@@ -84,13 +84,13 @@ A complete GUI dev environment docker image with all the software you need.
 
 Then run Xlaunch from the start menu and follow the initial configuration steps:
 
-![vcxsrv1](https://raw.githubusercontent.com/SindriaInc/xdev/master/docs/screenshots/vcxsrv1.png)
+![vcxsrv1](docs/screenshots/vcxsrv1.png)
 
-![vcxsrv2](https://raw.githubusercontent.com/SindriaInc/xdev/master/docs/screenshots/vcxsrv2.png)
+![vcxsrv2](docs/screenshots/vcxsrv2.png)
 
-![vcxsrv3](https://raw.githubusercontent.com/SindriaInc/xdev/master/docs/screenshots/vcxsrv3.png)
+![vcxsrv3](docs/screenshots/vcxsrv3.png)
 
-![vcxsrv4](https://raw.githubusercontent.com/SindriaInc/xdev/master/docs/screenshots/vcxsrv4.png)
+![vcxsrv4](docs/screenshots/vcxsrv4.png)
 
 Make sure to save to configuration file before you click finish!
 Save it to one of the following locations:
