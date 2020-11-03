@@ -1,6 +1,8 @@
 # Xdev
 
-A complete GUI dev environment docker image with all the software you need. 
+A complete GUI dev environment docker image with all the software you need.
+
+![xdev](docs/screenshots/w3.png)
 
 # Information
 
