@@ -10,8 +10,13 @@ With xdev you can run linux workstation everywhere you have docker daemon ready 
 
 - Fedora 32
 - Oh My Zsh
+- Git Sindria
+- Tmate
+- Asciinema
+- Pandoc
 - Docker
 - Docker Compose
+- Kubectl
 - Telegram Desktop
 - Firefox Developer
 - Terminator
@@ -36,7 +41,7 @@ With xdev you can run linux workstation everywhere you have docker daemon ready 
 
 ## Setup
 
-- Goto under deployment folder
+- Go to under deployment folder
 - Setup file env: `cp .env.example .env`
 - Setup Docker Compose `cp docker-compose.example.yml docker-compose.yml`
 - Run: `docker-compose up -d`

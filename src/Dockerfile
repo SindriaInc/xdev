@@ -20,6 +20,7 @@ ENV DISPLAY ${XDEV_DISPLAY}
 ENV XDEV_SINDRIA_USER_PASSWORD ${XDEV_SINDRIA_USER_PASSWORD}
 
 ENV DOCKER_COMPOSE_VERSION 1.27.4
+ENV GIT_SINDRIA_VERSION 1.1.0-1
 ENV TELEGRAM_DESKTOP_VERSION 2.4.3
 ENV DISCORD_VERSION 0.0.12-1 
 ENV FIREFOX_DEVELOPER_VERSION 83.0b2
@@ -42,7 +43,7 @@ LABEL \
 # Update system, install base software and set timezone
 RUN dnf update -y && \
     rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-32.noarch.rpm && \
-    dnf install curl wget tmux screen vim unzip supervisor git sudo zsh procps iputils telnet htop net-tools hostname openvpn bzip2 -y && \
+    dnf install curl wget tmux screen rsync vim unzip supervisor git sudo zsh procps iputils telnet htop net-tools hostname openvpn bzip2 -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     dnf clean all
 
@@ -67,8 +68,13 @@ RUN dnf -y install dnf-plugins-core && \
     sudo chmod +x /usr/local/bin/docker-compose && \
     dnf clean all
 
+# Install Kubectl
+COPY resources/yum.repos.d/kubernetes.repo /etc/yum.repos.d/kubernetes.repo
+RUN dnf install -y kubectl && \
+    dnf clean all
+
 # Install i3, utility and fonts
-RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL -y && \
+RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL -y && \
     mkdir -p /home/sindria/.config && \
     mkdir -p /home/sindria/.config/i3 && \
     mkdir -p /home/sindria/Projects && \
@@ -88,6 +94,15 @@ RUN bash ${SINDRIA_USER_HOME}/i3-gaps.sh && \
 
 COPY resources/i3/config /home/sindria/.config/i3
 COPY resources/i3/wallpapers /home/sindria/Pictures/Wallpapers
+
+# Install pandoc
+RUN dnf install -y texlive-scheme-full pandoc && \
+    dnf clean all
+
+# Install Git Sindria
+RUN wget https://raw.githubusercontent.com/SindriaInc/git-sindria/master/rpms/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm && \
+    dnf install ${SINDRIA_USER_HOME}/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm && \
+    dnf clean all
 
 # Install Telegram Desktop
 RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.tar.xz -P /home/sindria/ && \
