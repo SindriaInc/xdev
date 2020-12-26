@@ -81,20 +81,20 @@ RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x1
     openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
 
 # Install TightVNC Server
-RUN wget https://raw.githubusercontent.com/rpmsphere/x86_64/master/t/tightvnc-server-1.3.10-18.2.x86_64.rpm -P /home/sindria && \
-    dnf install /home/sindria/tightvnc-server-1.3.10-18.2.x86_64.rpm -y && \
-    rm -rf /home/sindria/*.rpm && \
+RUN wget https://raw.githubusercontent.com/rpmsphere/x86_64/master/t/tightvnc-server-1.3.10-18.2.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
+    dnf install ${SINDRIA_USER_HOME}/tightvnc-server-1.3.10-18.2.x86_64.rpm -y && \
+    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
     dnf clean all
 
 # Install i3, utility and fonts
 RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL -y && \
-    mkdir -p /home/sindria/.config && \
-    mkdir -p /home/sindria/.config/i3 && \
-    mkdir -p /home/sindria/Projects && \
-    mkdir -p /home/sindria/Pictures && \
-    mkdir -p /home/sindria/Pictures/Screenshots && \
-    mkdir -p /home/sindria/Pictures/Wallpapers && \
-    su sindria -c "cd /home/sindria && wget --no-check-certificate http://install.ohmyz.sh -O - | sh" && \
+    mkdir -p ${SINDRIA_USER_HOME}/.config && \
+    mkdir -p ${SINDRIA_USER_HOME}/.config/i3 && \
+    mkdir -p ${SINDRIA_USER_HOME}/Projects && \
+    mkdir -p ${SINDRIA_USER_HOME}/Pictures && \
+    mkdir -p ${SINDRIA_USER_HOME}/Pictures/Screenshots && \
+    mkdir -p ${SINDRIA_USER_HOME}/Pictures/Wallpapers && \
+    su sindria -c "cd ${SINDRIA_USER_HOME} && wget --no-check-certificate http://install.ohmyz.sh -O - | sh" && \
     wget https://justgetflux.com/linux/xflux64.tgz -P /usr/local/bin && \
     tar xzf /usr/local/bin/xflux64.tgz -C /usr/local/bin && \
     rm -rf /usr/local/bin/xflux.tgz && \
@@ -118,10 +118,10 @@ COPY resources/yum.repos.d/turbovnc.repo /etc/yum.repos.d/turbovnc.repo
 RUN dnf install -y turbovnc && \
     dnf clean all && \
     mkdir -p /root/.vnc && \
-    echo ${XDEV_SINDRIA_USER_PASSWORD} | vncpasswd /root/.vnc/passwd && \
+    vncpasswd -f <<< "${XDEV_SINDRIA_USER_PASSWORD}" > "/root/.vnc/passwd" && \
     chmod 600 /root/.vnc/passwd && \
     mkdir -p ${SINDRIA_USER_HOME}/.vnc && \
-    echo ${XDEV_SINDRIA_USER_PASSWORD} | vncpasswd ${SINDRIA_USER_HOME}/.vnc/passwd && \
+    vncpasswd -f <<< "${XDEV_SINDRIA_USER_PASSWORD}" > "${SINDRIA_USER_HOME}/.vnc/passwd" && \
     chmod 600 ${SINDRIA_USER_HOME}/.vnc/passwd
 
 # Install pandoc
@@ -129,31 +129,32 @@ RUN dnf install -y texlive-scheme-full pandoc && \
     dnf clean all
 
 # Install Git Sindria
-RUN wget https://raw.githubusercontent.com/SindriaInc/git-sindria/master/rpms/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm && \
-    dnf install ${SINDRIA_USER_HOME}/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm && \
+RUN wget https://raw.githubusercontent.com/SindriaInc/git-sindria/master/rpms/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm -P ${SINDRIA_USER_HOME} && \
+    dnf install -y ${SINDRIA_USER_HOME}/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm && \
+    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
     dnf clean all
 
 # Install Telegram Desktop
-RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.tar.xz -P /home/sindria/ && \
-    tar xvf /home/sindria/tsetup.${TELEGRAM_DESKTOP_VERSION}.tar.xz -C /home/sindria && \
-    rm -rf /home/sindria/*.tar.xz && \
-    mv /home/sindria/Telegram /home/sindria/.Telegram && \
-    ln -s /home/sindria/.Telegram/Telegram /usr/local/bin/telegram-desktop && \
+RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.tar.xz -P ${SINDRIA_USER_HOME} && \
+    tar xvf ${SINDRIA_USER_HOME}/tsetup.${TELEGRAM_DESKTOP_VERSION}.tar.xz -C ${SINDRIA_USER_HOME} && \
+    rm -rf ${SINDRIA_USER_HOME}/*.tar.xz && \
+    mv ${SINDRIA_USER_HOME}/Telegram ${SINDRIA_USER_HOME}/.Telegram && \
+    ln -s ${SINDRIA_USER_HOME}/.Telegram/Telegram /usr/local/bin/telegram-desktop && \
     mkdir -p /var/cache/fontconfig && \
     chown root:${SINDRIA_USER} /var/cache/fontconfig && \
     chmod 775 /var/cache/fontconfig
 
 # Install Discord
 #RUN dnf update -y && \
-#    wget https://download1.rpmfusion.org/nonfree/fedora/updates/32/x86_64/d/discord-${DISCORD_VERSION}.fc32.x86_64.rpm -P /home/sindria && \
-#    dnf install /home/sindria/discord-${DISCORD_VERSION}.fc32.x86_64.rpm -y && \
-#    rm -rf /home/sindria/*.rpm && \
+#    wget https://download1.rpmfusion.org/nonfree/fedora/updates/32/x86_64/d/discord-${DISCORD_VERSION}.fc32.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
+#    dnf install ${SINDRIA_USER_HOME}/discord-${DISCORD_VERSION}.fc32.x86_64.rpm -y && \
+#    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
 #    dnf clean all
 
 # Install Google-Chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm -P /home/sindria && \
-    dnf install /home/sindria/google-chrome-stable_current_x86_64.rpm -y && \
-    rm -rf /home/sindria/*.rpm && \
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm -P ${SINDRIA_USER_HOME} && \
+    dnf install ${SINDRIA_USER_HOME}/google-chrome-stable_current_x86_64.rpm -y && \
+    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
     dnf clean all
 
 # Install firefox developer edition
@@ -172,9 +173,9 @@ RUN rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg && \
     dnf clean all
 
 # Install Mysql Workbench
-RUN wget https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc32.x86_64.rpm -P /home/sindria && \
-    dnf install /home/sindria/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc32.x86_64.rpm -y && \
-    rm -rf /home/sindria/*.rpm && \
+RUN wget https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc32.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
+    dnf install ${SINDRIA_USER_HOME}/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc32.x86_64.rpm -y && \
+    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
     dnf clean all
 
 # Install PhpStorm
