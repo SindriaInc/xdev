@@ -74,8 +74,20 @@ COPY resources/yum.repos.d/kubernetes.repo /etc/yum.repos.d/kubernetes.repo
 RUN dnf install -y kubectl && \
     dnf clean all
 
+# Install Xorg, NOVNC and Websocktify
+RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-server-utils novnc python3-websockify python3-numpy && \
+    dnf clean all && \
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout /root/novnc.pem -out /root/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" && \
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
+
+# Install TightVNC Server
+RUN wget https://raw.githubusercontent.com/rpmsphere/x86_64/master/t/tightvnc-server-1.3.10-18.2.x86_64.rpm -P /home/sindria && \
+    dnf install /home/sindria/tightvnc-server-1.3.10-18.2.x86_64.rpm -y && \
+    rm -rf /home/sindria/*.rpm && \
+    dnf clean all
+
 # Install i3, utility and fonts
-RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL ratpoison novnc websockify libxv1 libglu1-mesa xauth x11-utils xorg tightvncserver -y && \
+RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL -y && \
     mkdir -p /home/sindria/.config && \
     mkdir -p /home/sindria/.config/i3 && \
     mkdir -p /home/sindria/Projects && \
@@ -110,9 +122,7 @@ RUN dnf install -y turbovnc && \
     chmod 600 /root/.vnc/passwd && \
     mkdir -p ${SINDRIA_USER_HOME}/.vnc && \
     echo ${XDEV_SINDRIA_USER_PASSWORD} | vncpasswd -f ${SINDRIA_USER_HOME}/.vnc/passwd && \
-    chmod 600 ${SINDRIA_USER_HOME}/.vnc/passwd && \
-    openssl req -x509 -nodes -newkey rsa:2048 -keyout /root/novnc.pem -out /root/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" && \
-    openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
+    chmod 600 ${SINDRIA_USER_HOME}/.vnc/passwd
 
 # Install pandoc
 RUN dnf install -y texlive-scheme-full pandoc && \
