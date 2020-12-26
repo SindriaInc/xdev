@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [[ -z "$1" ]]; then
-    echo "Provide user UID"
+    echo "Provide image name as first argument (eg. sindriainc/<repo-slug>)"
     exit 1
 fi
 
@@ -10,11 +10,10 @@ if [[ -z "$2" ]]; then
     exit 1
 fi
 
-IMAGE_NAME="sindriainc/xdev"
-
-HOST_USER_UID=$1
+IMAGE_NAME=$1
 TAG_VERSION=$2
 
+HOST_USER_UID=1000
 TIMEZONE=Europe/Rome
 FEDORA_VERSION=32
 HOST_DOCKER_GROUP_UID=975
