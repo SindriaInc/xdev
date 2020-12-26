@@ -110,7 +110,9 @@ RUN dnf install -y turbovnc && \
     chmod 600 /root/.vnc/passwd && \
     mkdir -p ${SINDRIA_USER_HOME}/.vnc && \
     echo ${XDEV_SINDRIA_USER_PASSWORD} | vncpasswd -f ${SINDRIA_USER_HOME}/.vnc/passwd && \
-    chmod 600 ${SINDRIA_USER_HOME}/.vnc/passwd
+    chmod 600 ${SINDRIA_USER_HOME}/.vnc/passwd && \
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout /root/novnc.pem -out /root/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" && \
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
 
 # Install pandoc
 RUN dnf install -y texlive-scheme-full pandoc && \
