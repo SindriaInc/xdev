@@ -2,7 +2,7 @@
 
 
 # Override default sindria user password by env
-if [ "$DEFAULT_SINDRIA_USER_PASSWORD" != "sindria" ]; then
+if [ "$DEFAULT_SINDRIA_USER_PASSWORD" != "sindria1!" ]; then
     echo "sindria:${DEFAULT_SINDRIA_USER_PASSWORD}" | chpasswd
 fi
 

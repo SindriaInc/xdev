@@ -118,10 +118,10 @@ COPY resources/yum.repos.d/turbovnc.repo /etc/yum.repos.d/turbovnc.repo
 RUN dnf install -y turbovnc && \
     dnf clean all && \
     mkdir -p /root/.vnc && \
-    echo ${XDEV_SINDRIA_USER_PASSWORD} | vncpasswd -f /root/.vnc/passwd && \
+    echo ${XDEV_SINDRIA_USER_PASSWORD} | vncpasswd /root/.vnc/passwd && \
     chmod 600 /root/.vnc/passwd && \
     mkdir -p ${SINDRIA_USER_HOME}/.vnc && \
-    echo ${XDEV_SINDRIA_USER_PASSWORD} | vncpasswd -f ${SINDRIA_USER_HOME}/.vnc/passwd && \
+    echo ${XDEV_SINDRIA_USER_PASSWORD} | vncpasswd ${SINDRIA_USER_HOME}/.vnc/passwd && \
     chmod 600 ${SINDRIA_USER_HOME}/.vnc/passwd
 
 # Install pandoc
