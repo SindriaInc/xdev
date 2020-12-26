@@ -36,5 +36,5 @@ if [ "${XDEV_MODE}" == "legacy" ]; then
 fi
 
 if [ "${XDEV_MODE}" == "web" ]; then
-  su sindria -c /opt/TurboVNC/bin/vncserver && websockify -D --web=/usr/share/novnc/ --cert=~/novnc.pem 80 localhost:5901 && tail -f /dev/null
+  su sindria -c "/opt/TurboVNC/bin/vncserver && websockify -D --web=/usr/share/novnc/ --cert=/home/sindria/novnc.pem 80 localhost:5901 && tail -f /dev/null"
 fi
