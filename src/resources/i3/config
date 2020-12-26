@@ -109,8 +109,8 @@ bindsym $mod+a focus parent
 #set $ws10 "10"
 
 # Custom
-set $ws1 "1 Telegram"
-set $ws2 "2 Browser"
+set $ws1 "1 Terminal"
+set $ws2 "2 IDE"
 set $ws3 "3 Terminal"
 set $ws4 "4 IDE"
 set $ws5 "5"
@@ -212,16 +212,16 @@ bar {
 for_window [class=".*"] border pixel 0
 
 # Only enable gaps on a workspace when there is at least one container
-smart_gaps on
+##TMPsmart_gaps on
 
-gaps inner 10
-gaps outer 25
+##TMPgaps inner 10
+##TMPgaps outer 25
 
 # Only enable outer gaps when there is exactly one container
-smart_gaps inverse_outer
+##TMPsmart_gaps inverse_outer
 
 # Activate smart borders (always)
-smart_borders on
+##TMPsmart_borders on
 
 # Activate smart borders (only when there are effectively no gaps)
 #smart_borders no_gaps
@@ -251,4 +251,4 @@ exec --no-startup-id feh --bg-fill /home/sindria/Pictures/Wallpapers/bg.jpg
 #exec --no-startup-id compton --config /.config/i3/compton.conf
 
 # Telegram
-exec --no-startup-id telegram-desktop
+#exec --no-startup-id telegram-desktop
