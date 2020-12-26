@@ -1,0 +1,7 @@
+[VirtualGL]
+name=VirtualGL official RPMs
+baseurl=https://sourceforge.net/projects/virtualgl/files
+gpgcheck=1
+gpgkey=https://sourceforge.net/projects/virtualgl/files/VGL-GPG-KEY
+       https://sourceforge.net/projects/virtualgl/files/VGL-GPG-KEY-1024
+enabled=1

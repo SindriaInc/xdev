@@ -18,6 +18,7 @@ ENV TZ ${TIMEZONE}
 ENV SUDO_GROUP wheel
 ENV DISPLAY ${XDEV_DISPLAY}
 ENV XDEV_SINDRIA_USER_PASSWORD ${XDEV_SINDRIA_USER_PASSWORD}
+ENV XDEV_MODE web
 
 ENV DOCKER_COMPOSE_VERSION 1.27.4
 ENV GIT_SINDRIA_VERSION 1.1.0-1
@@ -94,6 +95,11 @@ RUN bash ${SINDRIA_USER_HOME}/i3-gaps.sh && \
 
 COPY resources/i3/config /home/sindria/.config/i3
 COPY resources/i3/wallpapers /home/sindria/Pictures/Wallpapers
+
+# Install VirtualGL
+COPY resources/yum.repos.d/virtualgl.repo /etc/yum.repos.d/virtualgl.repo
+RUN dnf install -y VirtualGL && \
+    dnf clean all
 
 # Install pandoc
 RUN dnf install -y texlive-scheme-full pandoc && \
