@@ -1,0 +1,6 @@
+[TurboVNC]
+name=TurboVNC official RPMs
+baseurl=https://sourceforge.net/projects/turbovnc/files
+gpgcheck=1
+gpgkey=https://sourceforge.net/projects/turbovnc/files/VGL-GPG-KEY
+enabled=1

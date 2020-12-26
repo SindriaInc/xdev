@@ -75,7 +75,7 @@ RUN dnf install -y kubectl && \
     dnf clean all
 
 # Install i3, utility and fonts
-RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL -y && \
+RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL ratpoison novnc websockify libxv1 libglu1-mesa xauth x11-utils xorg tightvncserver -y && \
     mkdir -p /home/sindria/.config && \
     mkdir -p /home/sindria/.config/i3 && \
     mkdir -p /home/sindria/Projects && \
@@ -101,6 +101,17 @@ COPY resources/yum.repos.d/virtualgl.repo /etc/yum.repos.d/virtualgl.repo
 RUN dnf install -y VirtualGL && \
     dnf clean all
 
+# Install TurboVNC
+COPY resources/yum.repos.d/turbovnc.repo /etc/yum.repos.d/turbovnc.repo
+RUN dnf install -y turbovnc && \
+    dnf clean all && \
+    mkdir -p /root/.vnc && \
+    echo ${XDEV_SINDRIA_USER_PASSWORD} | vncpasswd -f /root/.vnc/passwd && \
+    chmod 600 /root/.vnc/passwd && \
+    mkdir -p ${SINDRIA_USER_HOME}/.vnc && \
+    echo ${XDEV_SINDRIA_USER_PASSWORD} | vncpasswd -f ${SINDRIA_USER_HOME}/.vnc/passwd && \
+    chmod 600 ${SINDRIA_USER_HOME}/.vnc/passwd
+
 # Install pandoc
 RUN dnf install -y texlive-scheme-full pandoc && \
     dnf clean all
@@ -122,10 +133,16 @@ RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.
 
 # Install Discord
 #RUN dnf update -y && \
-#    wget https://download1.rpmfusion.org/nonfree/fedora/updates/32/x86_64/d/discord-${DISCORD_VERSION}.fc32.x86_64.rpm && \
+#    wget https://download1.rpmfusion.org/nonfree/fedora/updates/32/x86_64/d/discord-${DISCORD_VERSION}.fc32.x86_64.rpm -P /home/sindria && \
 #    dnf install /home/sindria/discord-${DISCORD_VERSION}.fc32.x86_64.rpm -y && \
 #    rm -rf /home/sindria/*.rpm && \
 #    dnf clean all
+
+# Install Google-Chrome
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm -P /home/sindria && \
+    dnf install /home/sindria/google-chrome-stable_current_x86_64.rpm -y && \
+    rm -rf /home/sindria/*.rpm && \
+    dnf clean all
 
 # Install firefox developer edition
 RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FIREFOX_DEVELOPER_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_DEVELOPER_VERSION}.tar.bz2 -P /opt && \
@@ -210,3 +227,5 @@ RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
 # Add and execute startup command
 COPY ./startup.sh /startup.sh
 CMD ["/bin/bash", "/startup.sh"]
+
+EXPOSE 80
