@@ -75,7 +75,7 @@ RUN dnf install -y kubectl && \
     dnf clean all
 
 # Install Xorg, NOVNC and Websocktify
-RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-server-utils novnc python3-websockify python3-numpy && \
+RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xorg-x11-server-utils novnc python3-websockify python3-numpy && \
     dnf clean all && \
     openssl req -x509 -nodes -newkey rsa:2048 -keyout /root/novnc.pem -out /root/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" && \
     openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
