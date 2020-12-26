@@ -9,7 +9,11 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod4
+# SUPER
+#set $mod Mod4
+
+# ALT
+set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -204,7 +208,7 @@ bindsym $mod+r mode "resize"
 bar {
         # Height in pixels
     	#height 25
-	    position bottom
+	position bottom
         status_command i3status
 }
 
@@ -252,3 +256,6 @@ exec --no-startup-id feh --bg-fill /home/sindria/Pictures/Wallpapers/bg.jpg
 
 # Telegram
 #exec --no-startup-id telegram-desktop
+
+# Terminal
+exec --no-startup-id terminator

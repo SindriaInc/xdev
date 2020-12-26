@@ -16,7 +16,7 @@ services:
     volumes:
       # System volumes      
       - "/dev/shm:/dev/shm"
-      - "/tmp/.X11-unix:/tmp/.X11-unix"
+      #- "/tmp/.X11-unix:/tmp/.X11-unix"
       - "/dev/snd:/dev/snd" 
       - "/dev/dri:/dev/dri"
       - "/run/user/${HOST_USER_UID}/pulse:/run/pulse:ro"
@@ -24,7 +24,7 @@ services:
       # Config volumes
       #- "${APP_CONFIG_PATH}/xdev:/home/sindria/config"
       # Working volumes  
-      - "${XDEV_LOCAL_WORKING_DIR}:${XDEV_WORKING_DIR}"
+      #- "${XDEV_LOCAL_WORKING_DIR}:${XDEV_WORKING_DIR}"
     hostname: "${APP_NAME}.local"
     network_mode: "host"
     cap_add:
