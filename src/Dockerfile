@@ -127,8 +127,8 @@ RUN dnf install -y turbovnc && \
     chmod 600 ${SINDRIA_USER_HOME}/.vnc/passwd
 
 # Install pandoc
-RUN dnf install -y texlive-scheme-full pandoc && \
-    dnf clean all
+#RUN dnf install -y texlive-scheme-full pandoc && \
+#    dnf clean all
 
 # Install Git Sindria
 RUN wget https://raw.githubusercontent.com/SindriaInc/git-sindria/master/rpms/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm -P ${SINDRIA_USER_HOME} && \
