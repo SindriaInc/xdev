@@ -103,9 +103,16 @@ RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm 
     dnf clean all
 
 # Install i3-gaps from source
-COPY resources/scripts/i3-gaps.sh ${SINDRIA_USER_HOME}
-RUN bash ${SINDRIA_USER_HOME}/i3-gaps.sh && \
-    rm -rf ${SINDRIA_USER_HOME}/i3-gaps.sh
+RUN dnf install -y libxcb-devel xcb-util-keysyms-devel xcb-util-devel xcb-util-wm-devel xcb-util-xrm-devel yajl-devel libXrandr-devel startup-notification-devel libev-devel xcb-util-cursor-devel libXinerama-devel libxkbcommon-devel libxkbcommon-x11-devel pcre-devel pango-devel git gcc automake && \
+    dnf install -y python3-pip ninja-build perl-devel && \
+    pip install meson && \
+    cd /tmp && \
+    git clone https://www.github.com/Airblader/i3 i3-gaps && \
+    cd i3-gaps && \
+    mkdir -p build && cd build && \
+    meson .. && \
+    ninja && \
+    meson install
 
 COPY resources/i3/config /home/sindria/.config/i3
 COPY resources/i3/wallpapers /home/sindria/Pictures/Wallpapers
