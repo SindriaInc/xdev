@@ -103,9 +103,9 @@ RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm 
     dnf clean all
 
 # Install i3-gaps from source
-#COPY resources/scripts/i3-gaps.sh ${SINDRIA_USER_HOME}
-#RUN bash ${SINDRIA_USER_HOME}/i3-gaps.sh && \
-#    rm -rf ${SINDRIA_USER_HOME}/i3-gaps.sh
+COPY resources/scripts/i3-gaps.sh ${SINDRIA_USER_HOME}
+RUN bash ${SINDRIA_USER_HOME}/i3-gaps.sh && \
+    rm -rf ${SINDRIA_USER_HOME}/i3-gaps.sh
 
 COPY resources/i3/config /home/sindria/.config/i3
 COPY resources/i3/wallpapers /home/sindria/Pictures/Wallpapers

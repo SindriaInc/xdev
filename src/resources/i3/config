@@ -216,16 +216,16 @@ bar {
 for_window [class=".*"] border pixel 0
 
 # Only enable gaps on a workspace when there is at least one container
-##TMPsmart_gaps on
+smart_gaps on
 
-##TMPgaps inner 10
-##TMPgaps outer 25
+gaps inner 10
+gaps outer 25
 
 # Only enable outer gaps when there is exactly one container
-##TMPsmart_gaps inverse_outer
+smart_gaps inverse_outer
 
 # Activate smart borders (always)
-##TMPsmart_borders on
+smart_borders on
 
 # Activate smart borders (only when there are effectively no gaps)
 #smart_borders no_gaps
