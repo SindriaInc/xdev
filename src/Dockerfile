@@ -154,10 +154,13 @@ RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.
 #    dnf clean all
 
 # Install Google-Chrome
+COPY resources/scripts/chrome.sh /opt/chrome/chrome.sh
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm -P ${SINDRIA_USER_HOME} && \
     dnf install ${SINDRIA_USER_HOME}/google-chrome-stable_current_x86_64.rpm -y && \
     rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
-    dnf clean all
+    dnf clean all && \
+    chmod +x /opt/chrome/chrome.sh && \
+    ln -s /opt/chrome/chrome.sh /usr/local/bin/chrome
 
 # Install firefox developer edition
 RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FIREFOX_DEVELOPER_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_DEVELOPER_VERSION}.tar.bz2 -P /opt && \
