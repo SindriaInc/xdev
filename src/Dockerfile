@@ -44,7 +44,7 @@ LABEL \
 # Update system, install base software and set timezone
 RUN dnf update -y && \
     rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-32.noarch.rpm && \
-    dnf install curl wget tmux screen rsync vim unzip supervisor git sudo zsh procps iputils telnet htop net-tools hostname openvpn bzip2 -y && \
+    dnf install curl wget tmux screen rsync vim unzip supervisor git sudo zsh passwd procps iputils telnet htop net-tools hostname openvpn bzip2 -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     dnf clean all
 
@@ -89,7 +89,7 @@ RUN wget https://raw.githubusercontent.com/rpmsphere/x86_64/master/t/tightvnc-se
     dnf clean all
 
 # Install i3, utility and fonts
-RUN dnf install i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL -y && \
+RUN dnf install -y i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL libXScrnSaver && \
     mkdir -p ${SINDRIA_USER_HOME}/.config && \
     mkdir -p ${SINDRIA_USER_HOME}/.config/i3 && \
     mkdir -p ${SINDRIA_USER_HOME}/Projects && \
