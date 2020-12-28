@@ -34,10 +34,10 @@ fi
 
 
 if [ "${XDEV_MODE}" == "legacy" ]; then
-  su sindria -c "export DISPLAY=$DISPLAY && /usr/bin/i3"
+  su sindria -c "export DISPLAY=$DISPLAY && /usr/local/bin/i3"
 fi
 
 if [ "${XDEV_MODE}" == "web" ]; then
-  su sindria -c "/opt/TurboVNC/bin/vncserver -geometry 1920x1080 -xstartup /usr/bin/i3" 
+  su sindria -c "/opt/TurboVNC/bin/vncserver -geometry 1920x1080 -xstartup /usr/local/bin/i3" 
   websockify -D --web=/usr/share/novnc/ --cert=~/novnc.pem 80 localhost:5901 && tail -f /dev/null
 fi
