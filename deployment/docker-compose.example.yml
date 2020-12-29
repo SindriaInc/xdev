@@ -15,6 +15,7 @@ services:
         - HOST_DOCKER_GROUP_UID=${HOST_DOCKER_GROUP_UID}
         - DISPLAY=${XDEV_DISPLAY}
         - XDEV_MODE=${XDEV_MODE}
+        - XDEV_WEB_PORT=${XDEV_WEB_PORT}
         - TZ=${TIMEZONE}
     volumes:
       # System volumes      

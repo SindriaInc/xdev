@@ -19,21 +19,22 @@ ENV SUDO_GROUP wheel
 ENV DISPLAY ${XDEV_DISPLAY}
 ENV XDEV_SINDRIA_USER_PASSWORD ${XDEV_SINDRIA_USER_PASSWORD}
 ENV XDEV_MODE web
+ENV XDEV_WEB_PORT 8080
 
 ENV DOCKER_COMPOSE_VERSION 1.27.4
 ENV GIT_SINDRIA_VERSION 1.1.0-1
-ENV TELEGRAM_DESKTOP_VERSION 2.4.3
+ENV TELEGRAM_DESKTOP_VERSION 2.5.1
 ENV DISCORD_VERSION 0.0.12-1 
-ENV FIREFOX_DEVELOPER_VERSION 83.0b2
+ENV FIREFOX_DEVELOPER_VERSION 85.0b4
 ENV MYSQL_WORKBENCH_VERSION 8.0.22-1
-ENV PHPSTORM_VERSION 2020.2.3
-ENV PYCHARM_VERSION 2020.2.3
-ENV IDEA_VERSION 2020.2.3
-ENV WEBSTORM_VERSION 2020.2.3
-ENV RUBYMINE_VERSION 2020.2.3
-ENV GOLAND_VERSION 2020.2.3
-ENV CLION_VERSION 2020.2.4
-ENV DATAGRIP_VERSION 2020.2.3
+ENV PHPSTORM_VERSION 2020.3
+ENV PYCHARM_VERSION 2020.3.1
+ENV IDEA_VERSION 2020.3
+ENV WEBSTORM_VERSION 2020.3
+ENV RUBYMINE_VERSION 2020.3
+ENV GOLAND_VERSION 2020.3
+ENV CLION_VERSION 2020.3
+ENV DATAGRIP_VERSION 2020.3.1
 
 LABEL \
 	name="xdev" \
@@ -79,8 +80,10 @@ RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x1
     dnf clean all && \
     echo "exec i3" > /root/.xinitrc && \
     echo "exec i3" > ${SINDRIA_USER_HOME}/.xinitrc && \
-    openssl req -x509 -nodes -newkey rsa:2048 -keyout /root/novnc.pem -out /root/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" && \
-    openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
+    mkdir -p /root/.novnc && \
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout /root/novnc.pem -out /root/.novnc/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" && \
+    mkdir -p ${SINDRIA_USER_HOME}/.novnc && \
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/.novnc/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
 
 # Install TightVNC Server
 RUN wget https://raw.githubusercontent.com/rpmsphere/x86_64/master/t/tightvnc-server-1.3.10-18.2.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
@@ -112,7 +115,8 @@ RUN dnf install -y libxcb-devel xcb-util-keysyms-devel xcb-util-devel xcb-util-w
     mkdir -p build && cd build && \
     meson .. && \
     ninja && \
-    meson install
+    meson install && \
+    rm -Rf /tmp/i3-gaps
 
 COPY resources/i3/config /home/sindria/.config/i3
 COPY resources/i3/wallpapers /home/sindria/Pictures/Wallpapers
@@ -184,6 +188,12 @@ RUN rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg && \
     dnf install sublime-text -y && \
     dnf clean all
 
+# Install vscode
+RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
+    sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' && \
+    dnf install -y code && \
+    dnf clean all
+
 # Install Mysql Workbench
 RUN wget https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc32.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
     dnf install ${SINDRIA_USER_HOME}/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc32.x86_64.rpm -y && \
@@ -253,4 +263,4 @@ RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
 COPY ./startup.sh /startup.sh
 CMD ["/bin/bash", "/startup.sh"]
 
-EXPOSE 80
+EXPOSE 8080
