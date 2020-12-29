@@ -4,7 +4,9 @@ services:
   # =xdev
   xdev:
     image: "sindriainc/xdev:${XDEV_TAG}"
+    #image: "<private-image>"
     container_name: "${APP_NAME}"
+    #command: tail -f /dev/null
     #user: sindria
     working_dir: ${XDEV_WORKING_DIR}
     environment:
@@ -12,6 +14,7 @@ services:
         - HOST_USER_UID=${HOST_USER_UID}  
         - HOST_DOCKER_GROUP_UID=${HOST_DOCKER_GROUP_UID}
         - DISPLAY=${XDEV_DISPLAY}
+        - XDEV_MODE=${XDEV_MODE}
         - TZ=${TIMEZONE}
     volumes:
       # System volumes      
@@ -34,8 +37,8 @@ services:
     #    ipv4_address: "${XDEV_IP_ADDRESS}"
     #    aliases:
     #      - "${APP_NAME}.local"
-    devices:
-      - "/dev/snd"
+    #devices:
+    #  - "/dev/snd"
 
 # =networks
 #networks:
