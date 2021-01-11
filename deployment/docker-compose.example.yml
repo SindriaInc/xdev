@@ -28,7 +28,7 @@ services:
       # Config volumes
       #- "${APP_CONFIG_PATH}/xdev:/home/sindria/config"
       # Working volumes  
-      #- "${XDEV_LOCAL_WORKING_DIR}:${XDEV_WORKING_DIR}"
+      - "projects:/home/sindria/Projects" 
     hostname: "${APP_NAME}.local"
     network_mode: "host"
     cap_add:
@@ -49,3 +49,7 @@ services:
 #    ipam:
 #      config:
 #        - subnet: ${NETWORK_SUBNET}
+
+# =volumes
+volumes:
+  projects:
