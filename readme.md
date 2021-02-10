@@ -1,12 +1,13 @@
 # Xdev
 
-A complete GUI dev workstation environment docker image with all the software you need.
+Xdev is the first cloud native distro made for developers.
+You can run Xdev everywhere you have docker daemon running.
 
 ![xdev](docs/screenshots/w3.png)
 
 ## Information
 
-With xdev you can run linux workstation everywhere you have docker daemon ready out of the box with the following contents:
+With xdev you have complete linux workstation ready out of the box with the following contents:
 
 - Fedora 32
 - Oh My Zsh
