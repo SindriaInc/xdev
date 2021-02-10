@@ -10,6 +10,20 @@ Password: `sindria`
 
 ![xdev](docs/screenshots/w3.png)
 
+## Tutorial
+
+- Move terminal to workspace 3: `ALT + SHIFT + 3`
+
+- Open browser on workspace 1: `ALT + D` -> type: firefox-developer -> `ENTER`
+
+- Move to workspace 2: `ALT + 2`
+
+- Open PhpStorm: `ALT + D` -> type: phpstorm -> `ENTER`
+
+- Move to workspace 3: `ALT + 3`
+
+- Close window: `ALT + SHIFT + Q`
+
 ## Information
 
 With xdev you have complete linux workstation ready out of the box with the following contents:
