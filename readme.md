@@ -4,7 +4,7 @@ Xdev is the first cloud native distro made for developers.
 
 You can run Xdev everywhere you have docker daemon running.
 
-Demo link: [demo](http://demo-xdev.sindria.org:8080)
+Demo link: [http://demo-xdev.sindria.org:8080](http://demo-xdev.sindria.org:8080)
 
 Password: `sindria`
 
