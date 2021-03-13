@@ -1,12 +1,32 @@
 # Xdev
 
-A complete GUI dev workstation environment docker image with all the software you need.
+Xdev is the first cloud native distro made for developers.
+
+You can run Xdev everywhere you have docker daemon running.
+
+Demo link: [http://demo-xdev.sindria.org:8080](http://demo-xdev.sindria.org:8080)
+
+Password: `sindria`
 
 ![xdev](docs/screenshots/w3.png)
 
+## Tutorial
+
+- Move terminal to workspace 3: `ALT + SHIFT + 3`
+
+- Open browser on workspace 1: `ALT + D` -> type: firefox-developer -> `ENTER`
+
+- Move to workspace 2: `ALT + 2`
+
+- Open PhpStorm: `ALT + D` -> type: phpstorm -> `ENTER`
+
+- Move to workspace 3: `ALT + 3`
+
+- Close window: `ALT + SHIFT + Q`
+
 ## Information
 
-With xdev you can run linux workstation everywhere you have docker daemon ready out of the box with the following contents:
+With xdev you have complete linux workstation ready out of the box with the following contents:
 
 - Fedora 32
 - Oh My Zsh
