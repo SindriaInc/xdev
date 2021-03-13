@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Cleanup lock files
+rm -Rf /tmp/i3-sindria.*
+rm -f /tmp/X*.lock
+rm -Rf /tmp/.X11-unix/X*
 
 # Override default sindria user password by env
 if [ "$DEFAULT_SINDRIA_USER_PASSWORD" != "sindria" ]; then
