@@ -49,18 +49,14 @@ RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x1
     echo "exec i3" > ${SINDRIA_USER_HOME}/.xinitrc && \
     mkdir -p /root/.novnc && \
     openssl req -x509 -nodes -newkey rsa:2048 -keyout /root/novnc.pem -out /root/.novnc/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" && \
+    rm -f /root/novnc.pem && \
     mkdir -p ${SINDRIA_USER_HOME}/.novnc && \
-    openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/.novnc/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/.novnc/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" && \
+    rm -f ${SINDRIA_USER_HOME}/novnc.pem
 
-## Install TightVNC Server
-#RUN wget https://raw.githubusercontent.com/rpmsphere/x86_64/master/t/tightvnc-server-1.3.10-18.2.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-#    dnf install ${SINDRIA_USER_HOME}/tightvnc-server-1.3.10-18.2.x86_64.rpm -y && \
-#    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
-#    dnf clean all
-
-## Install TigerVNC Server
-#RUN dnf install tigervnc-server -y && \
-#    dnf clean all
+# Install TigerVNC Server
+RUN dnf install tigervnc-server -y && \
+    dnf clean all
 
 # Install i3, utility and fonts
 RUN dnf install -y i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema xterm terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL libXScrnSaver && \
