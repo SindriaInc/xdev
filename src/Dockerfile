@@ -43,4 +43,4 @@ RUN useradd ${SINDRIA_USER} -u ${HOST_USER_UID} -m -d ${SINDRIA_USER_HOME} -s /b
 # Reset permission
 RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
 
-SHELL ["/bin/bash"]
+#SHELL ["/bin/bash"]
