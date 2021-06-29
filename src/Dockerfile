@@ -18,6 +18,7 @@ ENV DISPLAY ${XDEV_DISPLAY}
 ENV XDEV_SINDRIA_USER_PASSWORD ${XDEV_SINDRIA_USER_PASSWORD}
 ENV XDEV_MODE web
 ENV XDEV_WEB_PORT 8080
+ENV XDEV_WEB_RESOLUTION 1920x1080
 ENV DOCKER_COMPOSE_VERSION 1.29.2
 
 LABEL \
@@ -62,7 +63,7 @@ RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x1
 #    dnf clean all
 
 # Install i3, utility and fonts
-RUN dnf install -y i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL libXScrnSaver && \
+RUN dnf install -y i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema xterm terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL libXScrnSaver && \
     mkdir -p ${SINDRIA_USER_HOME}/.config && \
     mkdir -p ${SINDRIA_USER_HOME}/.config/i3 && \
     mkdir -p ${SINDRIA_USER_HOME}/Projects && \
