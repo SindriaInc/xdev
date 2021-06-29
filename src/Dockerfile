@@ -25,7 +25,7 @@ LABEL \
 # Update system, install base software and set timezone
 RUN dnf update -y && \
     rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-${FEDORA_VERSION}.noarch.rpm && \
-    dnf install curl wget tmux screen rsync vim unzip supervisor git sudo zsh passwd procps iputils telnet htop net-tools hostname openvpn bzip2 -y && \
+    dnf install curl wget tmux screen rsync vim unzip supervisor git sudo zsh passwd procps iputils telnet openssl htop net-tools hostname openvpn bzip2 -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     dnf clean all
 
