@@ -43,5 +43,5 @@ fi
 
 if [ "${XDEV_MODE}" == "web" ]; then
   su ${SINDRIA_USER} -c "/opt/TurboVNC/bin/vncserver -geometry ${XDEV_WEB_RESOLUTION} -xstartup /usr/local/bin/i3 ${DISPLAY}"
-  websockify -D --web=/usr/share/novnc/ --cert=~/.novnc/novnc.pem ${XDEV_WEB_PORT} localhost:5901 && tail -f /dev/null
+  websockify -D --web=/usr/share/novnc/ --cert=~/.novnc/novnc.pem ${XDEV_WEB_PORT} ${XDEV_VNC_HOST}:${XDEV_VNC_PORT} && tail -f /dev/null
 fi
