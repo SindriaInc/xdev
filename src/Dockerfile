@@ -1,15 +1,11 @@
-# Download base image fedora
-ARG FEDORA_VERSION
-FROM fedora:${FEDORA_VERSION}
+# Extends xdev base
+FROM sindriainc/xdev:base
 
 ARG TAG_VERSION
 ARG XDEV_DISPLAY
 
-ENV SINDRIA_USER sindria
-ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
-ENV PHPSTORM_VERSION 2020.3
-
+ENV PHPSTORM_VERSION 2021.1.4
 
 LABEL \
 	name="xdev" \
@@ -24,9 +20,4 @@ RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-${PHPSTORM_VERSION}.t
     mv /opt/PhpStorm-* /opt/phpstorm && \
     ln -s /opt/phpstorm/bin/phpstorm.sh /usr/local/bin/phpstorm
 
-# Reset permission
-RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
-
-# Add and execute startup command
-COPY ./startup.sh /startup.sh
-CMD ["/bin/bash", "/startup.sh"]
+CMD ["phpstorm"]
