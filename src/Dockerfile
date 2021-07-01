@@ -3,13 +3,11 @@ FROM sindriainc/xdev:base
 
 ARG TAG_VERSION
 ARG HOST_USER_UID
-ARG HOST_DOCKER_GROUP_UID
 ARG TIMEZONE
 ARG XDEV_DISPLAY
 ARG XDEV_SINDRIA_USER_PASSWORD
 
 ENV HOST_USER_UID ${HOST_USER_UID}
-ENV HOST_DOCKER_GROUP_UID ${HOST_DOCKER_GROUP_UID}
 ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
 ENV TZ ${TIMEZONE}
@@ -21,28 +19,12 @@ ENV XDEV_WEB_PORT 8080
 ENV XDEV_WEB_RESOLUTION 1920x1080
 ENV XDEV_VNC_HOST localhost
 ENV XDEV_VNC_PORT 5901
-ENV DOCKER_COMPOSE_VERSION 1.29.2
 
 LABEL \
 	name="xdev" \
 	image="sindriainc/xdev" \
 	tag="${TAG_VERSION}" \
 	vendor="sindria"
-
-# Install docker and docker-compose
-RUN dnf -y install dnf-plugins-core && \
-    dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo && \
-    dnf install docker-ce docker-ce-cli containerd.io -y && \
-    usermod -a -G docker ${SINDRIA_USER} && \
-    groupmod -g ${HOST_DOCKER_GROUP_UID} docker && \
-    curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
-    sudo chmod +x /usr/local/bin/docker-compose && \
-    dnf clean all
-
-# Install Kubectl
-COPY resources/yum.repos.d/kubernetes.repo /etc/yum.repos.d/kubernetes.repo
-RUN dnf install -y kubectl && \
-    dnf clean all
 
 # Install Xorg, NOVNC and Websocktify
 RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xorg-x11-server-utils novnc python3-websockify python3-numpy && \
