@@ -5,6 +5,7 @@ FROM fedora:${FEDORA_VERSION}
 ARG FEDORA_VERSION
 ARG TAG_VERSION
 ARG HOST_USER_UID
+ARG HOST_DOCKER_GROUP_UID
 ARG TIMEZONE
 ARG XDEV_SINDRIA_USER_PASSWORD
 
@@ -39,6 +40,21 @@ RUN useradd ${SINDRIA_USER} -u ${HOST_USER_UID} -m -d ${SINDRIA_USER_HOME} -s /b
     usermod -a -G ${SUDO_GROUP} ${SINDRIA_USER} && \
     echo "${SINDRIA_USER}:${XDEV_SINDRIA_USER_PASSWORD}" | chpasswd && \
     chmod 644 /etc/sudoers
+
+# Install docker and docker-compose
+RUN dnf -y install dnf-plugins-core && \
+    dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo && \
+    dnf install docker-ce docker-ce-cli containerd.io -y && \
+    usermod -a -G docker ${SINDRIA_USER} && \
+    groupmod -g ${HOST_DOCKER_GROUP_UID} docker && \
+    curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+    sudo chmod +x /usr/local/bin/docker-compose && \
+    dnf clean all
+
+# Install Kubectl
+COPY resources/yum.repos.d/kubernetes.repo /etc/yum.repos.d/kubernetes.repo
+RUN dnf install -y kubectl && \
+    dnf clean all
 
 # Reset permission
 RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
