@@ -20,4 +20,6 @@ RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-${PHPSTORM_VERSION}.t
     mv /opt/PhpStorm-* /opt/phpstorm && \
     ln -s /opt/phpstorm/bin/phpstorm.sh /usr/local/bin/phpstorm
 
+USER sindria
+
 CMD ["phpstorm"]
