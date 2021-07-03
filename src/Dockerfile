@@ -21,4 +21,4 @@ RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-${PHPSTORM_VERSION}.t
     rm -rf /opt/*.tar.gz && \
     mv /opt/PhpStorm-* /opt/phpstorm && \
     ln -s /opt/phpstorm/bin/phpstorm.sh /usr/local/bin/phpstorm && \
-    echo -n "#PhpStorm\nexec --no-startup-id phpstorm" >> ${SINDRIA_USER_HOME}/.config/i3/config
+    echo -e "\nexec --no-startup-id phpstorm" >> ${SINDRIA_USER_HOME}/.config/i3/config
