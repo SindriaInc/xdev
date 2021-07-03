@@ -8,8 +8,6 @@ rm -Rf /tmp/.X11-unix/X*
 # Override default sindria user password by env
 if [ "${DEFAULT_SINDRIA_USER_PASSWORD}" != "sindria" ]; then
     echo "${SINDRIA_USER}:${DEFAULT_SINDRIA_USER_PASSWORD}" | chpasswd
-    vncpasswd -f <<< "${XDEV_SINDRIA_USER_PASSWORD}" > "/root/.vnc/passwd"
-    vncpasswd -f <<< "${XDEV_SINDRIA_USER_PASSWORD}" > "${SINDRIA_USER_HOME}/.vnc/passwd"
 fi
 
 
@@ -42,6 +40,7 @@ if [ "${XDEV_MODE}" == "legacy" ]; then
 fi
 
 if [ "${XDEV_MODE}" == "web" ]; then
-  su ${SINDRIA_USER} -c "/opt/TurboVNC/bin/vncserver -geometry ${XDEV_WEB_RESOLUTION} -xstartup /usr/local/bin/i3 ${DISPLAY}"
-  websockify -D --web=/usr/share/novnc/ --cert=~/.novnc/novnc.pem ${XDEV_WEB_PORT} ${XDEV_VNC_HOST}:${XDEV_VNC_PORT} && tail -f /dev/null
+  su ${SINDRIA_USER} -c "Xspice --xsession"
+  su ${SINDRIA_USER} -c "/usr/local/bin/i3 ${DISPLAY}"
+  websockify -D --web=/usr/share/spice-html5/ ${XDEV_WEB_PORT} ${XDEV_SPICE_HOST}:${XDEV_SPICE_PORT} && tail -f /dev/null
 fi

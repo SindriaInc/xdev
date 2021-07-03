@@ -26,9 +26,10 @@ LABEL \
 	tag="${TAG_VERSION}" \
 	vendor="sindria"
 
-# Install Xorg and Websocktify
-RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xorg-x11-server-utils python3-websockify python3-numpy && \
+# Install Xorg, Spice and Websocktify
+RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xorg-x11-server-utils xorg-x11-drv-qxl xorg-x11-server-Xspice spice-html5 python3-websockify python3-numpy && \
     dnf clean all && \
+    echo "allowed_users=anybody" > /etc/X11/Xwrapper.config && \
     echo "exec i3" > /root/.xinitrc && \
     echo "exec i3" > ${SINDRIA_USER_HOME}/.xinitrc
 
@@ -67,8 +68,8 @@ COPY resources/yum.repos.d/virtualgl.repo /etc/yum.repos.d/virtualgl.repo
 RUN dnf install -y VirtualGL && \
     dnf clean all
 
-# Install Spice
-
+# Setup Spice
+COPY resources/X11/spiceqxl.xorg.conf /etc/X11
 
 # Reset permission
 RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
