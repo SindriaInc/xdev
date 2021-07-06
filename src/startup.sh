@@ -42,6 +42,6 @@ fi
 if [ "${XDEV_MODE}" == "web" ]; then
   #su ${SINDRIA_USER} -c "Xspice --xsession"
   #su ${SINDRIA_USER} -c "/usr/local/bin/i3 ${DISPLAY}"
-  su ${SINDRIA_USER} -c "Xspice --port 5900 --disable-ticketing --xsession /usr/local/bin/i3 $DISPLAY  > /dev/null 2>&1 &  /usr/bin/bash"
+  su ${SINDRIA_USER} -c "Xspice --port 5900 --disable-ticketing $DISPLAY  > /dev/null 2>&1 &  /usr/bin/bash"
   websockify -D --web=/usr/share/spice-html5 ${XDEV_WEB_PORT} ${XDEV_SPICE_HOST}:${XDEV_SPICE_PORT} && tail -f /dev/null
 fi
