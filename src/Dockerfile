@@ -1,30 +1,16 @@
-# Download base image fedora
-ARG FEDORA_VERSION
-FROM fedora:${FEDORA_VERSION}
+# Extends xdev wrapper
+FROM sindriainc/xdev:wrapper
 
 ARG TAG_VERSION
-ARG HOST_USER_UID
-ARG HOST_DOCKER_GROUP_UID
-ARG TIMEZONE
 ARG XDEV_DISPLAY
-ARG XDEV_SINDRIA_USER_PASSWORD
 
-ENV FEDORA_VERSION ${FEDORA_VERSION}
-ENV HOST_USER_UID ${HOST_USER_UID}
-ENV HOST_DOCKER_GROUP_UID ${HOST_DOCKER_GROUP_UID}
 ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
-ENV TZ ${TIMEZONE}
-ENV SUDO_GROUP wheel
 ENV DISPLAY ${XDEV_DISPLAY}
-ENV XDEV_SINDRIA_USER_PASSWORD ${XDEV_SINDRIA_USER_PASSWORD}
-ENV XDEV_MODE web
-ENV XDEV_WEB_PORT 8080
 
-ENV DOCKER_COMPOSE_VERSION 1.27.4
-ENV GIT_SINDRIA_VERSION 1.1.0-1
+#ENV GIT_SINDRIA_VERSION 1.1.0-1
 ENV TELEGRAM_DESKTOP_VERSION 2.5.1
-ENV DISCORD_VERSION 0.0.12-1 
+#ENV DISCORD_VERSION 0.0.12-1
 ENV FIREFOX_DEVELOPER_VERSION 85.0b4
 ENV MYSQL_WORKBENCH_VERSION 8.0.22-1
 ENV PHPSTORM_VERSION 2020.3
@@ -42,110 +28,15 @@ LABEL \
 	tag="${TAG_VERSION}" \
 	vendor="sindria"
 
-# Update system, install base software and set timezone
-RUN dnf update -y && \
-    rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-32.noarch.rpm && \
-    dnf install curl wget tmux screen rsync vim unzip supervisor git sudo zsh passwd procps iputils telnet htop net-tools hostname openvpn bzip2 -y && \
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
-    dnf clean all
-
-COPY resources/etc/sudoers /etc/sudoers
-
-# Adding sindria user
-RUN useradd ${SINDRIA_USER} -u ${HOST_USER_UID} -m -d ${SINDRIA_USER_HOME} -s /bin/zsh && \
-    groupmod ${SINDRIA_USER} -g ${HOST_USER_UID} && \
-    mkdir -p ${SINDRIA_USER_HOME}/config && \
-    chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME} && \
-    usermod -a -G ${SUDO_GROUP} ${SINDRIA_USER} && \
-    echo "${SINDRIA_USER}:${XDEV_SINDRIA_USER_PASSWORD}" | chpasswd && \
-    chmod 644 /etc/sudoers
-
-# Install docker and docker-compose
-RUN dnf -y install dnf-plugins-core && \
-    dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo && \
-    dnf install docker-ce docker-ce-cli containerd.io -y && \
-    usermod -a -G docker ${SINDRIA_USER} && \
-    groupmod -g ${HOST_DOCKER_GROUP_UID} docker && \
-    curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
-    sudo chmod +x /usr/local/bin/docker-compose && \
-    dnf clean all
-
-# Install Kubectl
-COPY resources/yum.repos.d/kubernetes.repo /etc/yum.repos.d/kubernetes.repo
-RUN dnf install -y kubectl && \
-    dnf clean all
-
-# Install Xorg, NOVNC and Websocktify
-RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-xinit xorg-x11-server-utils novnc python3-websockify python3-numpy && \
-    dnf clean all && \
-    echo "exec i3" > /root/.xinitrc && \
-    echo "exec i3" > ${SINDRIA_USER_HOME}/.xinitrc && \
-    mkdir -p /root/.novnc && \
-    openssl req -x509 -nodes -newkey rsa:2048 -keyout /root/novnc.pem -out /root/.novnc/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" && \
-    mkdir -p ${SINDRIA_USER_HOME}/.novnc && \
-    openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/.novnc/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
-
-# Install TightVNC Server
-RUN wget https://raw.githubusercontent.com/rpmsphere/x86_64/master/t/tightvnc-server-1.3.10-18.2.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-    dnf install ${SINDRIA_USER_HOME}/tightvnc-server-1.3.10-18.2.x86_64.rpm -y && \
-    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
-    dnf clean all
-
-# Install i3, utility and fonts
-RUN dnf install -y i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema filezilla thunderbird terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL libXScrnSaver && \
-    mkdir -p ${SINDRIA_USER_HOME}/.config && \
-    mkdir -p ${SINDRIA_USER_HOME}/.config/i3 && \
-    mkdir -p ${SINDRIA_USER_HOME}/Projects && \
-    mkdir -p ${SINDRIA_USER_HOME}/Pictures && \
-    mkdir -p ${SINDRIA_USER_HOME}/Pictures/Screenshots && \
-    mkdir -p ${SINDRIA_USER_HOME}/Pictures/Wallpapers && \
-    su sindria -c "cd ${SINDRIA_USER_HOME} && wget --no-check-certificate http://install.ohmyz.sh -O - | sh" && \
-    wget https://justgetflux.com/linux/xflux64.tgz -P /usr/local/bin && \
-    tar xzf /usr/local/bin/xflux64.tgz -C /usr/local/bin && \
-    rm -rf /usr/local/bin/xflux.tgz && \
-    dnf clean all
-
-# Install i3-gaps from source
-RUN dnf install -y libxcb-devel xcb-util-keysyms-devel xcb-util-devel xcb-util-wm-devel xcb-util-xrm-devel yajl-devel libXrandr-devel startup-notification-devel libev-devel xcb-util-cursor-devel libXinerama-devel libxkbcommon-devel libxkbcommon-x11-devel pcre-devel pango-devel git gcc automake && \
-    dnf install -y python3-pip ninja-build perl-devel && \
-    pip install meson && \
-    cd /tmp && \
-    git clone https://www.github.com/Airblader/i3 i3-gaps && \
-    cd i3-gaps && \
-    mkdir -p build && cd build && \
-    meson .. && \
-    ninja && \
-    meson install && \
-    rm -Rf /tmp/i3-gaps
-
-COPY resources/i3/config /home/sindria/.config/i3
-COPY resources/i3/wallpapers /home/sindria/Pictures/Wallpapers
-
-# Install VirtualGL
-COPY resources/yum.repos.d/virtualgl.repo /etc/yum.repos.d/virtualgl.repo
-RUN dnf install -y VirtualGL && \
-    dnf clean all
-
-# Install TurboVNC
-COPY resources/yum.repos.d/turbovnc.repo /etc/yum.repos.d/turbovnc.repo
-RUN dnf install -y turbovnc && \
-    dnf clean all && \
-    mkdir -p /root/.vnc && \
-    vncpasswd -f <<< "${XDEV_SINDRIA_USER_PASSWORD}" > "/root/.vnc/passwd" && \
-    chmod 600 /root/.vnc/passwd && \
-    mkdir -p ${SINDRIA_USER_HOME}/.vnc && \
-    vncpasswd -f <<< "${XDEV_SINDRIA_USER_PASSWORD}" > "${SINDRIA_USER_HOME}/.vnc/passwd" && \
-    chmod 600 ${SINDRIA_USER_HOME}/.vnc/passwd
-
 # Install pandoc
-#RUN dnf install -y texlive-scheme-full pandoc && \
-#    dnf clean all
-
-# Install Git Sindria
-RUN wget https://raw.githubusercontent.com/SindriaInc/git-sindria/master/rpms/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm -P ${SINDRIA_USER_HOME} && \
-    dnf install -y ${SINDRIA_USER_HOME}/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm && \
-    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
+RUN dnf install -y texlive-scheme-full pandoc && \
     dnf clean all
+
+## Install Git Sindria
+#RUN wget https://raw.githubusercontent.com/SindriaInc/git-sindria/master/rpms/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm -P ${SINDRIA_USER_HOME} && \
+#    dnf install -y ${SINDRIA_USER_HOME}/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm && \
+#    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
+#    dnf clean all
 
 # Install Telegram Desktop
 RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.tar.xz -P ${SINDRIA_USER_HOME} && \
@@ -255,12 +146,3 @@ RUN wget https://download-cf.jetbrains.com/datagrip/datagrip-${DATAGRIP_VERSION}
     rm -rf /opt/*.tar.gz && \
     mv /opt/DataGrip-* /opt/datagrip && \
     ln -s /opt/datagrip/bin/datagrip.sh /usr/local/bin/datagrip
-
-# Reset permission
-RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
-
-# Add and execute startup command
-COPY ./startup.sh /startup.sh
-CMD ["/bin/bash", "/startup.sh"]
-
-EXPOSE 8080
