@@ -28,7 +28,7 @@ Password: `sindria`
 
 With xdev you have complete linux workstation ready out of the box with the following contents:
 
-- Fedora 32
+- Fedora 34
 - Oh My Zsh
 - Git Sindria
 - Tmate
