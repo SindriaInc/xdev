@@ -13,7 +13,7 @@ Password: `sindria`
 ## Use case
 
 - Cloud environment on docker node or k8s cluster.
-- Local environment using Docker Desktop on Windows/OSX VM.
+- Local environment using Docker Desktop on Windows/OSX.
 - Local environment on Gnu/Linux host without X11.
 - Testing environment for clean run and destroy any software such as DE, WM and stuff like that.
 
