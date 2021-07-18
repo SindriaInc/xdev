@@ -43,7 +43,7 @@ RUN dnf install tigervnc-server -y && \
     dnf clean all
 
 # Install cde, utility and fonts
-RUN dnf copr enable dcantrel/cde && \
+RUN dnf copr enable dcantrel/cde -y && \
     dnf install cde -y && \
     dnf install -y feh cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema xterm terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL libXScrnSaver && \
     mkdir -p ${SINDRIA_USER_HOME}/.config && \
