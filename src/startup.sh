@@ -38,10 +38,10 @@ fi
 
 
 if [ "${XDEV_MODE}" == "legacy" ]; then
-  su ${SINDRIA_USER} -c "export DISPLAY=$DISPLAY && /usr/local/bin/i3"
+  su ${SINDRIA_USER} -c "export DISPLAY=$DISPLAY && /usr/bin/cde"
 fi
 
 if [ "${XDEV_MODE}" == "web" ]; then
-  su ${SINDRIA_USER} -c "/opt/TurboVNC/bin/vncserver -geometry ${XDEV_WEB_RESOLUTION} -xstartup /usr/local/bin/i3 ${DISPLAY}"
+  su ${SINDRIA_USER} -c "/opt/TurboVNC/bin/vncserver -geometry ${XDEV_WEB_RESOLUTION} -xstartup /usr/bin/cde ${DISPLAY}"
   websockify -D --web=/usr/share/novnc/ --cert=~/.novnc/novnc.pem ${XDEV_WEB_PORT} ${XDEV_VNC_HOST}:${XDEV_VNC_PORT} && tail -f /dev/null
 fi
