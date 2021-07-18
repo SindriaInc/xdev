@@ -8,6 +8,7 @@ ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
 
+ENV LENS_VERSION 5.1.1
 #ENV GIT_SINDRIA_VERSION 1.1.0-1
 ENV TELEGRAM_DESKTOP_VERSION 2.8.10
 #ENV DISCORD_VERSION 0.0.12-1
@@ -27,6 +28,15 @@ LABEL \
 	image="sindriainc/xdev" \
 	tag="${TAG_VERSION}" \
 	vendor="sindria"
+
+# Install Lens
+COPY resources/scripts/lens.sh /opt/lens/lens.sh
+RUN wget https://lens-binaries.s3-eu-west-1.amazonaws.com/ide/Lens-${LENS_VERSION}-latest.20210716.1.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
+    dnf install ${SINDRIA_USER_HOME}/Lens-${LENS_VERSION}-latest.20210716.1.x86_64.rpm -y && \
+    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
+    dnf clean all && \
+    chmod +x /opt/lens/lens.sh && \
+    ln -s /opt/lens/lens.sh /usr/local/bin/lens-no-sandbox
 
 # Install pandoc
 RUN dnf install -y texlive-scheme-full pandoc && \
