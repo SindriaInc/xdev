@@ -10,6 +10,13 @@ Password: `sindria`
 
 ![xdev](docs/screenshots/w3.png)
 
+## Use case
+
+- Cloud environment on docker node or k8s cluster.
+- Local environment using Docker Desktop on Windows/OSX VM.
+- Local environment on Gnu/Linux host without X11.
+- Testing environment for clean run and destroy any software such as DE, WM and stuff like that.
+
 ## Tutorial
 
 - Move terminal to workspace 3: `ALT + SHIFT + 3`
@@ -58,7 +65,6 @@ With xdev you have complete linux workstation ready out of the box with the foll
 
 - Docker CE
 - Docker Compose
-- Xorg
 
 ## Setup
 
