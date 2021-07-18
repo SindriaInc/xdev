@@ -62,7 +62,14 @@ With xdev you have complete linux workstation ready out of the box with the foll
 
 ## Setup
 
-- Go to under deployment folder
+### Quick install
+
+- Run: `docker-compose -f https://raw.githubusercontent.com/SindriaInc/xdev/master/deployment/docker-compose.example.yml --env-file https://raw.githubusercontent.com/SindriaInc/xdev/master/deployment/.env.example up -d`
+
+### Standard install
+
+- On your host make a directory
+- Go to under deployment folder in this repo
 - Setup file env: `cp .env.example .env`
 - Setup Docker Compose `cp docker-compose.example.yml docker-compose.yml`
 - Run: `docker-compose up -d`
