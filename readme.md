@@ -37,6 +37,7 @@ With xdev you have complete linux workstation ready out of the box with the foll
 - Docker
 - Docker Compose
 - Kubectl
+- Lens
 - Telegram Desktop
 - Firefox Developer
 - Terminator
