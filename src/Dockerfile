@@ -11,15 +11,6 @@ ENV DISPLAY ${XDEV_DISPLAY}
 ENV LENS_VERSION 5.1.1
 ENV TELEGRAM_DESKTOP_VERSION 2.8.10
 ENV FIREFOX_DEVELOPER_VERSION 91.0b6
-ENV MYSQL_WORKBENCH_VERSION 8.0.25-1
-ENV PHPSTORM_VERSION 2021.1.4
-ENV PYCHARM_VERSION 2021.1.3
-ENV IDEA_VERSION 2021.1.3
-ENV WEBSTORM_VERSION 2021.1.3
-ENV RUBYMINE_VERSION 2021.1.3
-ENV GOLAND_VERSION 2021.1.3
-ENV CLION_VERSION 2021.1.3
-ENV DATAGRIP_VERSION 2021.1.3
 
 LABEL \
 	name="xdev" \
@@ -35,10 +26,6 @@ RUN wget https://lens-binaries.s3-eu-west-1.amazonaws.com/ide/Lens-${LENS_VERSIO
     dnf clean all && \
     chmod +x /opt/lens/lens.sh && \
     ln -s /opt/lens/lens.sh /usr/local/bin/lens-no-sandbox
-
-# Install pandoc
-RUN dnf install -y texlive-scheme-full pandoc && \
-    dnf clean all
 
 # Install Git Sindria
 RUN cd /tmp && \
@@ -57,22 +44,6 @@ RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.
     mkdir -p /var/cache/fontconfig && \
     chown root:${SINDRIA_USER} /var/cache/fontconfig && \
     chmod 775 /var/cache/fontconfig
-
-# Install Discord
-RUN cd /tmp && \
-    git clone https://github.com/RPM-Outpost/discord.git && \
-    cd discord && \
-    echo -n "y\ny" | bash create-package.sh stable && \
-    rm -Rf /tmp/discord
-
-# Install Google-Chrome
-COPY resources/scripts/chrome.sh /opt/chrome/chrome.sh
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-    dnf install ${SINDRIA_USER_HOME}/google-chrome-stable_current_x86_64.rpm -y && \
-    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
-    dnf clean all && \
-    chmod +x /opt/chrome/chrome.sh && \
-    ln -s /opt/chrome/chrome.sh /usr/local/bin/chrome
 
 # Install firefox developer edition
 RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FIREFOX_DEVELOPER_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_DEVELOPER_VERSION}.tar.bz2 -P /opt && \
@@ -94,65 +65,3 @@ RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
     sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' && \
     dnf install -y code && \
     dnf clean all
-
-# Install Mysql Workbench
-RUN wget https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc${FEDORA_VERSION}.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-    dnf install ${SINDRIA_USER_HOME}/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc${FEDORA_VERSION}.x86_64.rpm -y && \
-    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
-    dnf clean all
-
-# Install PhpStorm
-RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-${PHPSTORM_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/PhpStorm-${PHPSTORM_VERSION}.tar.gz -C /opt && \
-    rm -rf /opt/*.tar.gz && \
-    mv /opt/PhpStorm-* /opt/phpstorm && \
-    ln -s /opt/phpstorm/bin/phpstorm.sh /usr/local/bin/phpstorm
-
-# Install PyCharm
-RUN wget https://download-cf.jetbrains.com/python/pycharm-professional-${PYCHARM_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/pycharm-professional-${PYCHARM_VERSION}.tar.gz -C /opt && \
-    rm -rf /opt/*.tar.gz && \
-    mv /opt/pycharm-* /opt/pycharm && \
-    ln -s /opt/pycharm/bin/pycharm.sh /usr/local/bin/pycharm
-
-# Install Idea
-RUN wget https://download-cf.jetbrains.com/idea/ideaIU-${IDEA_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/ideaIU-${IDEA_VERSION}.tar.gz -C /opt && \
-    rm -rf /opt/*.tar.gz && \
-    mv /opt/idea-* /opt/idea && \
-    ln -s /opt/idea/bin/idea.sh /usr/local/bin/idea
-
-# Install WebStorm
-RUN wget https://download-cf.jetbrains.com/webstorm/WebStorm-${WEBSTORM_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/WebStorm-${WEBSTORM_VERSION}.tar.gz -C /opt && \
-    rm -rf /opt/*.tar.gz && \
-    mv /opt/WebStorm-* /opt/webstorm && \
-    ln -s /opt/webstorm/bin/webstorm.sh /usr/local/bin/webstorm
-
-# Install RubyMine
-RUN wget https://download-cf.jetbrains.com/ruby/RubyMine-${RUBYMINE_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/RubyMine-${RUBYMINE_VERSION}.tar.gz -C /opt && \
-    rm -rf /opt/*.tar.gz && \
-    mv /opt/RubyMine-* /opt/rubymine && \
-    ln -s /opt/rubymine/bin/rubymine.sh /usr/local/bin/rubymine
-
-# Install Goland
-RUN wget https://download-cf.jetbrains.com/go/goland-${GOLAND_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/goland-${GOLAND_VERSION}.tar.gz -C /opt && \
-    rm -rf /opt/*.tar.gz && \
-    mv /opt/GoLand-* /opt/goland && \
-    ln -s /opt/goland/bin/goland.sh /usr/local/bin/goland
-
-# Install CLion
-RUN wget https://download-cf.jetbrains.com/cpp/CLion-${CLION_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/CLion-${CLION_VERSION}.tar.gz -C /opt && \
-    rm -rf /opt/*.tar.gz && \
-    mv /opt/clion-* /opt/clion && \
-    ln -s /opt/clion/bin/clion.sh /usr/local/bin/clion
-
-# Install DataGrip
-RUN wget https://download-cf.jetbrains.com/datagrip/datagrip-${DATAGRIP_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/datagrip-${DATAGRIP_VERSION}.tar.gz -C /opt && \
-    rm -rf /opt/*.tar.gz && \
-    mv /opt/DataGrip-* /opt/datagrip && \
-    ln -s /opt/datagrip/bin/datagrip.sh /usr/local/bin/datagrip

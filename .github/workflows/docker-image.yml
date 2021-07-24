@@ -2,8 +2,8 @@ name: Docker Image CI
 
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - devops
 
 jobs:
 
@@ -29,4 +29,3 @@ jobs:
         DOCKERHUB_NAMESPACE: ${{ secrets.DOCKERHUB_NAMESPACE }}
       run: |
         docker push ${DOCKERHUB_NAMESPACE}/${REPO_SLUG}:${RELEASE_VERSION}
-        docker push ${DOCKERHUB_NAMESPACE}/${REPO_SLUG}:latest
