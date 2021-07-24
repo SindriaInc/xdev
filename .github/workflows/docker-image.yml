@@ -14,7 +14,7 @@ jobs:
     - name: Set env release
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Set env slug
-      run: echo "REPO_SLUG=xdev >> $GITHUB_ENV
+      run: echo "REPO_SLUG=xdev" >> $GITHUB_ENV
     - name: Build Image
       env:
         DOCKERHUB_NAMESPACE: ${{ secrets.DOCKERHUB_NAMESPACE }}
