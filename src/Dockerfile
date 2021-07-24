@@ -10,7 +10,7 @@ ENV DISPLAY ${XDEV_DISPLAY}
 
 ENV TELEGRAM_DESKTOP_VERSION 2.8.10
 ENV FIREFOX_DEVELOPER_VERSION 91.0b6
-ENV WEBSTORM_VERSION 2021.1.3
+ENV PYCHARM_VERSION 2021.1.3
 
 LABEL \
 	name="xdev" \
@@ -36,15 +36,6 @@ RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.
     chown root:${SINDRIA_USER} /var/cache/fontconfig && \
     chmod 775 /var/cache/fontconfig
 
-# Install Google-Chrome
-COPY resources/scripts/chrome.sh /opt/chrome/chrome.sh
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-    dnf install ${SINDRIA_USER_HOME}/google-chrome-stable_current_x86_64.rpm -y && \
-    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
-    dnf clean all && \
-    chmod +x /opt/chrome/chrome.sh && \
-    ln -s /opt/chrome/chrome.sh /usr/local/bin/chrome
-
 # Install firefox developer edition
 RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FIREFOX_DEVELOPER_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_DEVELOPER_VERSION}.tar.bz2 -P /opt && \
     bzip2 -d /opt/firefox-${FIREFOX_DEVELOPER_VERSION}.tar.bz2 && \
@@ -54,16 +45,9 @@ RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FI
     mv /opt/firefox /opt/firefox-developer && \
     ln -s /opt/firefox-developer/firefox /usr/local/bin/firefox-developer
 
-# Install vscode
-RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
-    sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' && \
-    dnf install -y code && \
-    dnf clean all
-
-# Install WebStorm
-RUN wget https://download-cf.jetbrains.com/webstorm/WebStorm-${WEBSTORM_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/WebStorm-${WEBSTORM_VERSION}.tar.gz -C /opt && \
+# Install PyCharm
+RUN wget https://download-cf.jetbrains.com/python/pycharm-professional-${PYCHARM_VERSION}.tar.gz -P /opt && \
+    tar xzf /opt/pycharm-professional-${PYCHARM_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
-    mv /opt/WebStorm-* /opt/webstorm && \
-    ln -s /opt/webstorm/bin/webstorm.sh /usr/local/bin/webstorm
-
+    mv /opt/pycharm-* /opt/pycharm && \
+    ln -s /opt/pycharm/bin/pycharm.sh /usr/local/bin/pycharm
