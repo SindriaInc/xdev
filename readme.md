@@ -95,6 +95,7 @@ With xdev you have complete linux workstation ready out of the box with the foll
 - Setup file env: `cp .env.example .env`
 - Setup Docker Compose `cp docker-compose.example.yml docker-compose.yml`
 - Run: `docker-compose up -d`
+- Url: [http://localhost:8080](http://localhost:8080)
 
 N.B. If you got an error check out others deployments mode, such as host mode and subnet mode.
 
