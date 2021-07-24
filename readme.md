@@ -96,7 +96,7 @@ With xdev you have complete linux workstation ready out of the box with the foll
 - Setup Docker Compose `cp docker-compose.example.yml docker-compose.yml`
 - Run: `docker-compose up -d`
 
-N.B. If you got an error check out others deploymens mode, such as host mode and subnet mode.
+N.B. If you got an error check out others deployments mode, such as host mode and subnet mode.
 
 # License
 
