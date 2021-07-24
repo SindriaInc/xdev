@@ -1,0 +1,14 @@
+name: Docker Image CI
+
+on:
+  push:
+    tags: "*"
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Image
+      run: bash build.sh sindriainc/xdev test
