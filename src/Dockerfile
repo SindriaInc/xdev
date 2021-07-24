@@ -8,24 +8,17 @@ ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
 
-ENV LENS_VERSION 5.1.1
 ENV TELEGRAM_DESKTOP_VERSION 2.8.10
 ENV FIREFOX_DEVELOPER_VERSION 91.0b6
+ENV MYSQL_WORKBENCH_VERSION 8.0.25-1
+ENV PHPSTORM_VERSION 2021.1.4
+ENV DATAGRIP_VERSION 2021.1.3
 
 LABEL \
 	name="xdev" \
 	image="sindriainc/xdev" \
 	tag="${TAG_VERSION}" \
 	vendor="sindria"
-
-# Install Lens
-COPY resources/scripts/lens.sh /opt/lens/lens.sh
-RUN wget https://lens-binaries.s3-eu-west-1.amazonaws.com/ide/Lens-${LENS_VERSION}-latest.20210716.1.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-    dnf install ${SINDRIA_USER_HOME}/Lens-${LENS_VERSION}-latest.20210716.1.x86_64.rpm -y && \
-    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
-    dnf clean all && \
-    chmod +x /opt/lens/lens.sh && \
-    ln -s /opt/lens/lens.sh /usr/local/bin/lens-no-sandbox
 
 # Install Git Sindria
 RUN cd /tmp && \
@@ -60,8 +53,22 @@ RUN rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg && \
     dnf install sublime-text -y && \
     dnf clean all
 
-# Install vscode
-RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
-    sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' && \
-    dnf install -y code && \
+# Install Mysql Workbench
+RUN wget https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc${FEDORA_VERSION}.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
+    dnf install ${SINDRIA_USER_HOME}/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc${FEDORA_VERSION}.x86_64.rpm -y && \
+    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
     dnf clean all
+
+# Install PhpStorm
+RUN wget https://download-cf.jetbrains.com/webide/PhpStorm-${PHPSTORM_VERSION}.tar.gz -P /opt && \
+    tar xzf /opt/PhpStorm-${PHPSTORM_VERSION}.tar.gz -C /opt && \
+    rm -rf /opt/*.tar.gz && \
+    mv /opt/PhpStorm-* /opt/phpstorm && \
+    ln -s /opt/phpstorm/bin/phpstorm.sh /usr/local/bin/phpstorm
+
+# Install DataGrip
+RUN wget https://download-cf.jetbrains.com/datagrip/datagrip-${DATAGRIP_VERSION}.tar.gz -P /opt && \
+    tar xzf /opt/datagrip-${DATAGRIP_VERSION}.tar.gz -C /opt && \
+    rm -rf /opt/*.tar.gz && \
+    mv /opt/DataGrip-* /opt/datagrip && \
+    ln -s /opt/datagrip/bin/datagrip.sh /usr/local/bin/datagrip
