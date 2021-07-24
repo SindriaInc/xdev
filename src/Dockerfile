@@ -9,10 +9,8 @@ ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
 
 ENV LENS_VERSION 5.1.1
-#ENV GIT_SINDRIA_VERSION 1.1.0-1
 ENV TELEGRAM_DESKTOP_VERSION 2.8.10
-#ENV DISCORD_VERSION 0.0.12-1
-ENV FIREFOX_DEVELOPER_VERSION 91.0b3
+ENV FIREFOX_DEVELOPER_VERSION 91.0b6
 ENV MYSQL_WORKBENCH_VERSION 8.0.25-1
 ENV PHPSTORM_VERSION 2021.1.4
 ENV PYCHARM_VERSION 2021.1.3
@@ -42,11 +40,13 @@ RUN wget https://lens-binaries.s3-eu-west-1.amazonaws.com/ide/Lens-${LENS_VERSIO
 RUN dnf install -y texlive-scheme-full pandoc && \
     dnf clean all
 
-## Install Git Sindria
-#RUN wget https://raw.githubusercontent.com/SindriaInc/git-sindria/master/rpms/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm -P ${SINDRIA_USER_HOME} && \
-#    dnf install -y ${SINDRIA_USER_HOME}/git-sindria-${GIT_SINDRIA_VERSION}.noarch.rpm && \
-#    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
-#    dnf clean all
+# Install Git Sindria
+RUN cd /tmp && \
+    git clone https://github.com/SindriaInc/git-sindria.git && \
+    cd git-sindria && \
+    make && \
+    make install && \
+    rm -Rf /tmp/git-sindria
 
 # Install Telegram Desktop
 RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.tar.xz -P ${SINDRIA_USER_HOME} && \
@@ -59,11 +59,11 @@ RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.
     chmod 775 /var/cache/fontconfig
 
 # Install Discord
-#RUN dnf update -y && \
-#    wget https://download1.rpmfusion.org/nonfree/fedora/updates/32/x86_64/d/discord-${DISCORD_VERSION}.fc32.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-#    dnf install ${SINDRIA_USER_HOME}/discord-${DISCORD_VERSION}.fc32.x86_64.rpm -y && \
-#    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
-#    dnf clean all
+RUN cd /tmp && \
+    git clone https://github.com/RPM-Outpost/discord.git && \
+    cd discord && \
+    echo -n "y\ny" | bash create-package.sh stable && \
+    rm -Rf /tmp/discord
 
 # Install Google-Chrome
 COPY resources/scripts/chrome.sh /opt/chrome/chrome.sh

@@ -13,7 +13,7 @@ fi
 IMAGE_NAME=$1
 TAG_VERSION=$2
 
-XDEV_DISPLAY=:0.0
+XDEV_DISPLAY=:1
 
 docker build ./src \
     --tag ${IMAGE_NAME}:${TAG_VERSION} \
