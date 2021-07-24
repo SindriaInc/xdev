@@ -4,11 +4,25 @@ Xdev is the first cloud native distro made for developers.
 
 You can run Xdev everywhere you have docker daemon running.
 
+For more info please follow the documentation [here](docs/main.md).
+
+---
+
+## Demo
+
 Demo link: [http://demo-xdev.sindria.org:8080](http://demo-xdev.sindria.org:8080)
 
 Password: `sindria`
 
-![xdev](docs/screenshots/w3.png)
+---
+
+Web Mode
+
+![xdev](docs/screenshots/web.png)
+
+Legacy Mode
+
+![xdev](docs/screenshots/legacy.png)
 
 ## Use case
 
@@ -35,8 +49,9 @@ Password: `sindria`
 
 With xdev you have complete linux workstation ready out of the box with the following contents:
 
-- Fedora 34
+- Terminator
 - Oh My Zsh
+- Flux
 - Git Sindria
 - Tmate
 - Asciinema
@@ -46,11 +61,13 @@ With xdev you have complete linux workstation ready out of the box with the foll
 - Kubectl
 - Lens
 - Telegram Desktop
+- Discord
 - Firefox Developer
-- Terminator
-- Flux
+- Google Chrome
 - Sublime Text
+- Visual Studio Code
 - Mysql WorkBench
+- DataGrip
 - PhpStorm
 - PyCharm
 - IntelliJ Idea
@@ -58,8 +75,6 @@ With xdev you have complete linux workstation ready out of the box with the foll
 - RubyMine
 - GoLand
 - Clion
-- DataGrip
-- I3 WM
 
 ## Requirements
 
