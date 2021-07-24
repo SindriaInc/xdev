@@ -30,6 +30,8 @@ services:
       # Working volumes  
       - "projects:/home/sindria/Projects" 
     hostname: "${APP_NAME}.local"
+    #ports:
+    #  - "8080:8080"
     network_mode: "host"
     cap_add:
       - NET_ADMIN
