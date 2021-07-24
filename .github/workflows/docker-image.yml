@@ -12,4 +12,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build Image
-      run: bash build.sh sindriainc/xdev ${GITHUB_REF}
+      run: bash build.sh sindriainc/xdev 2.4.0
