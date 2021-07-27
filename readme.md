@@ -33,6 +33,8 @@ Legacy Mode
 
 ## Tutorial
 
+- Open terminal emulator: `ALT + D` -> type: terminator -> `ENTER`
+
 - Move terminal to workspace 3: `ALT + SHIFT + 3`
 
 - Open browser on workspace 1: `ALT + D` -> type: firefox-developer -> `ENTER`
