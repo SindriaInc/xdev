@@ -1,3 +1,8 @@
+<p align="center"><a href="https://github.com/SindriaInc/xdev" target="_blank"><img src="https://raw.githubusercontent.com/SindriaInc/xdev/master/docs/screenshots/web.png" width="400"></a></p>
+  
+![docker image](https://github.com/SindriaInc/xdev/actions/workflows/docker-image.yml/badge.svg) 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 # Xdev
 
 Xdev is the first cloud native distro made for developers.
