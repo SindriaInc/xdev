@@ -97,8 +97,8 @@ With xdev you have complete linux workstation ready out of the box with the foll
 
 ### Standard install
 
-- On your host make a directory: `mkdir -p xdev-example`
-- Move into it: `cd xdev-example`
+- On your host make a directory: `mkdir -p xdev`
+- Move into it: `cd xdev`
 - Go to under deployments [folder](https://github.com/SindriaInc/xdev/tree/master/deployments)
 - Setup file env: `cp .env.example .env`
 - Setup Docker Compose `cp docker-compose.example.yml docker-compose.yml`
