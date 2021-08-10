@@ -5,6 +5,38 @@ rm -Rf /tmp/i3-sindria.*
 rm -f /tmp/X*.lock
 rm -Rf /tmp/.X11-unix/X*
 
+# Symblink ssh dotfiles secrets if object storage is present
+if [ -d ${SINDRIA_USER_HOME}/ssh ]; then
+    chmod 600 ${SINDRIA_USER_HOME}/ssh/*
+    chmod 644 ${SINDRIA_USER_HOME}/ssh/*.pub
+    # shellcheck disable=SC2164
+    cd ${SINDRIA_USER_HOME}/.ssh
+    ln -s ../ssh/* .
+    # shellcheck disable=SC2164
+    cd ${SINDRIA_USER_HOME}
+fi
+
+# Symblink aws dotfiles secrets if object storage is present
+if [ -d ${SINDRIA_USER_HOME}/aws ]; then
+    chmod 600 ${SINDRIA_USER_HOME}/aws/*
+    # shellcheck disable=SC2164
+    cd ${SINDRIA_USER_HOME}/.aws
+    ln -s ../aws/* .
+    # shellcheck disable=SC2164
+    cd ${SINDRIA_USER_HOME}
+fi
+
+# Symblink docker dotfiles secrets if object storage is present
+if [ -d ${SINDRIA_USER_HOME}/docker ]; then
+    chmod 600 ${SINDRIA_USER_HOME}/docker/*
+    # shellcheck disable=SC2164
+    cd ${SINDRIA_USER_HOME}/.docker
+    ln -s ../docker/* .
+    # shellcheck disable=SC2164
+    cd ${SINDRIA_USER_HOME}
+fi
+
+
 # Setup git username
 if [ "${GIT_USERNAME}" != "" ]; then
     git config --global user.name ${GIT_USERNAME}
