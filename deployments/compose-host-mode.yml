@@ -17,6 +17,9 @@ services:
         - XDEV_MODE=${XDEV_MODE}
         - XDEV_WEB_PORT=${XDEV_WEB_PORT}
         - TZ=${TIMEZONE}
+        - GIT_USERNAME=${GIT_USERNAME}
+        - GIT_EMAIL=${GIT_EMAIL}
+        - GIT_EDITOR=${GIT_EDITOR}
     volumes:
       # System volumes
       - "/dev/shm:/dev/shm"
