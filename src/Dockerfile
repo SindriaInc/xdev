@@ -1,4 +1,4 @@
-# Download base image fedora
+# Extends base image fedora
 ARG FEDORA_VERSION
 FROM fedora:${FEDORA_VERSION}
 
@@ -37,6 +37,12 @@ COPY resources/etc/sudoers /etc/sudoers
 RUN useradd ${SINDRIA_USER} -u ${HOST_USER_UID} -m -d ${SINDRIA_USER_HOME} -s /bin/zsh && \
     groupmod ${SINDRIA_USER} -g ${HOST_USER_UID} && \
     mkdir -p ${SINDRIA_USER_HOME}/config && \
+    mkdir -p ${SINDRIA_USER_HOME}/.ssh && \
+    chmod 700 ${SINDRIA_USER_HOME}/.ssh && \
+    mkdir -p ${SINDRIA_USER_HOME}/.aws && \
+    chmod 700 ${SINDRIA_USER_HOME}/.aws && \
+    mkdir -p ${SINDRIA_USER_HOME}/.docker && \
+    chmod 700 ${SINDRIA_USER_HOME}/.docker && \
     chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME} && \
     usermod -a -G ${SUDO_GROUP} ${SINDRIA_USER} && \
     echo "${SINDRIA_USER}:${XDEV_SINDRIA_USER_PASSWORD}" | chpasswd && \
@@ -56,6 +62,14 @@ RUN dnf -y install dnf-plugins-core && \
 COPY resources/yum.repos.d/kubernetes.repo /etc/yum.repos.d/kubernetes.repo
 RUN dnf install -y kubectl && \
     dnf clean all
+
+# Install awscli
+RUN cd /tmp && \
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    sudo ./aws/install && \
+    rm -Rf awscliv2.zip && \
+    rm -Rf aws
 
 # Reset permission
 RUN chown -R ${SINDRIA_USER}:${SINDRIA_USER} ${SINDRIA_USER_HOME}
