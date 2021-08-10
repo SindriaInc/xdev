@@ -5,6 +5,21 @@ rm -Rf /tmp/i3-sindria.*
 rm -f /tmp/X*.lock
 rm -Rf /tmp/.X11-unix/X*
 
+# Setup git username
+if [ "${GIT_USERNAME}" != "" ]; then
+    git config --global user.name ${GIT_USERNAME}
+fi
+
+# Setup git email
+if [ "${GIT_EMAIL}" != "" ]; then
+    git config --global user.email ${GIT_EMAIL}
+fi
+
+# Setup git editor
+if [ "${GIT_EDITOR}" != "" ]; then
+    git config --global core.editor ${GIT_EDITOR}
+fi
+
 # Override default sindria user password by env
 if [ "${DEFAULT_SINDRIA_USER_PASSWORD}" != "sindria" ]; then
     echo "${SINDRIA_USER}:${DEFAULT_SINDRIA_USER_PASSWORD}" | chpasswd
