@@ -71,6 +71,7 @@ With xdev you have complete linux workstation ready out of the box with the foll
 - Telegram Desktop
 - Discord
 - Firefox Developer
+- Postman
 - Google Chrome
 - Sublime Text
 - Visual Studio Code
