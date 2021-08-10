@@ -85,8 +85,8 @@ RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FI
 
 # Install postman
 RUN cd /opt && \
-    wget https://dl.pstmn.io/download/latest/linux64 && \
-    tar xzvf Postman-linux-x64-8.10.0.tar.gz && \
+    curl -X GET https://dl.pstmn.io/download/latest/linux64 -o postman.tar.gz && \
+    tar xzvf postman.tar.gz && \
     rm -rf /opt/*.tar.gz && \
     ln -s /opt/Postman/Postman /usr/local/bin/postman
 
