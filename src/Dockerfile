@@ -83,6 +83,13 @@ RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FI
     mv /opt/firefox /opt/firefox-developer && \
     ln -s /opt/firefox-developer/firefox /usr/local/bin/firefox-developer
 
+# Install postman
+RUN cd /opt && \
+    wget https://dl.pstmn.io/download/latest/linux64 && \
+    tar xzvf Postman-linux-x64-*.tar.gz && \
+    rm -rf /opt/*.tar.gz && \
+    ln -s /opt/Postman/Postman /usr/local/bin/postman
+
 # Install sublime text
 RUN rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg && \
     dnf config-manager --add-repo https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo && \
