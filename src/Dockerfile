@@ -46,6 +46,7 @@ RUN dnf install tigervnc-server -y && \
 RUN dnf install -y i3 i3status i3lock dmenu feh xbacklight cmatrix lxrandr pcmanfm alsa-utils cowsay tmate asciinema xterm terminator levien-inconsolata-fonts dejavu-*-fonts mesa-libEGL libXScrnSaver && \
     mkdir -p ${SINDRIA_USER_HOME}/.config && \
     mkdir -p ${SINDRIA_USER_HOME}/.config/i3 && \
+    mkdir -p ${SINDRIA_USER_HOME}/.config/terminator && \
     mkdir -p ${SINDRIA_USER_HOME}/Projects && \
     mkdir -p ${SINDRIA_USER_HOME}/Pictures && \
     mkdir -p ${SINDRIA_USER_HOME}/Pictures/Screenshots && \
@@ -71,6 +72,7 @@ RUN dnf install -y libxcb-devel xcb-util-keysyms-devel xcb-util-devel xcb-util-w
 
 COPY resources/i3/config /home/sindria/.config/i3
 COPY resources/i3/wallpapers /home/sindria/Pictures/Wallpapers
+COPY resources/terminator/config /home/sindria/.config/terminator
 
 # Install VirtualGL
 COPY resources/yum.repos.d/virtualgl.repo /etc/yum.repos.d/virtualgl.repo
