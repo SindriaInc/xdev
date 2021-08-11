@@ -39,17 +39,17 @@ fi
 
 # Setup git username
 if [ "${GIT_USERNAME}" != "" ]; then
-    git config --global user.name ${GIT_USERNAME}
+    su ${SINDRIA_USER} -c "git config --global user.name ${GIT_USERNAME}"
 fi
 
 # Setup git email
 if [ "${GIT_EMAIL}" != "" ]; then
-    git config --global user.email ${GIT_EMAIL}
+    su ${SINDRIA_USER} -c "git config --global user.email ${GIT_EMAIL}"
 fi
 
 # Setup git editor
 if [ "${GIT_EDITOR}" != "" ]; then
-    git config --global core.editor ${GIT_EDITOR}
+    su ${SINDRIA_USER} -c "git config --global core.editor ${GIT_EDITOR}"
 fi
 
 # Override default sindria user password by env
