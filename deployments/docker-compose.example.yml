@@ -20,6 +20,9 @@ services:
         - GIT_USERNAME=${GIT_USERNAME}
         - GIT_EMAIL=${GIT_EMAIL}
         - GIT_EDITOR=${GIT_EDITOR}
+        - GIT_SINDRIA_PATH=${GIT_SINDRIA_PATH}
+        - GIT_SINDRIA_TOKEN=${GIT_SINDRIA_TOKEN}
+        - GIT_SINDRIA_URL=${GIT_SINDRIA_URL}
     volumes:
       # System volumes      
       - "/dev/shm:/dev/shm"
