@@ -33,10 +33,10 @@ RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x1
     echo "exec i3" > /root/.xinitrc && \
     echo "exec i3" > ${SINDRIA_USER_HOME}/.xinitrc && \
     mkdir -p /root/.novnc && \
-    openssl req -x509 -nodes -newkey rsa:2048 -keyout /root/novnc.pem -out /root/.novnc/novnc.pem -days 3650 -subj ${XDEV_NOVNC_SUBJ} && \
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout /root/novnc.pem -out /root/.novnc/novnc.pem -days 3650 -subj "${XDEV_NOVNC_SUBJ}" && \
     rm -f /root/novnc.pem && \
     mkdir -p ${SINDRIA_USER_HOME}/.novnc && \
-    openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/.novnc/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj ${XDEV_NOVNC_SUBJ} && \
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/.novnc/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj "${XDEV_NOVNC_SUBJ}" && \
     rm -f ${SINDRIA_USER_HOME}/novnc.pem
 
 # Install TigerVNC Server
