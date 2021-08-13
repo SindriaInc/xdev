@@ -31,10 +31,11 @@ services:
       - "/dev/dri:/dev/dri"
       - "/run/user/${HOST_USER_UID}/pulse:/run/pulse:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
-      # Config volumes
-      #- "${APP_CONFIG_PATH}/xdev:/home/sindria/config"
       # Working volumes
       - "projects:/home/sindria/Projects"
+      - "ssh:/home/sindria/.ssh"
+      - "aws:/home/sindria/.aws"
+      - "docker:/home/sindria/.docker"
     hostname: "${APP_NAME}.local"
     ports:
       - "8080:8080"
@@ -61,3 +62,6 @@ networks:
 # =volumes
 volumes:
   projects:
+  ssh:
+  aws:
+  docker:
