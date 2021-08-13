@@ -5,35 +5,23 @@ rm -Rf /tmp/i3-sindria.*
 rm -f /tmp/X*.lock
 rm -Rf /tmp/.X11-unix/X*
 
-# Symblink ssh dotfiles secrets if object storage is present
-if [ -d ${SINDRIA_USER_HOME}/ssh ]; then
-    chmod 600 ${SINDRIA_USER_HOME}/ssh/*
-    chmod 644 ${SINDRIA_USER_HOME}/ssh/*.pub
-    # shellcheck disable=SC2164
-    cd ${SINDRIA_USER_HOME}/.ssh
-    ln -s ../ssh/* .
-    # shellcheck disable=SC2164
-    cd ${SINDRIA_USER_HOME}
+# Resetting permission for object storage
+if [ -d ${SINDRIA_USER_HOME}/.ssh ]; then
+    chmod 700 ${SINDRIA_USER_HOME}/.ssh
+    chmod 600 ${SINDRIA_USER_HOME}/.ssh/*
+    chmod 644 ${SINDRIA_USER_HOME}/.ssh/*.pub
 fi
 
-# Symblink aws dotfiles secrets if object storage is present
-if [ -d ${SINDRIA_USER_HOME}/aws ]; then
-    chmod 600 ${SINDRIA_USER_HOME}/aws/*
-    # shellcheck disable=SC2164
-    cd ${SINDRIA_USER_HOME}/.aws
-    ln -s ../aws/* .
-    # shellcheck disable=SC2164
-    cd ${SINDRIA_USER_HOME}
+# Resetting permission for object storage
+if [ -d ${SINDRIA_USER_HOME}/.aws ]; then
+    chmod 700 ${SINDRIA_USER_HOME}/.aws
+    chmod 600 ${SINDRIA_USER_HOME}/.aws/*
 fi
 
-# Symblink docker dotfiles secrets if object storage is present
-if [ -d ${SINDRIA_USER_HOME}/docker ]; then
-    chmod 600 ${SINDRIA_USER_HOME}/docker/*
-    # shellcheck disable=SC2164
-    cd ${SINDRIA_USER_HOME}/.docker
-    ln -s ../docker/* .
-    # shellcheck disable=SC2164
-    cd ${SINDRIA_USER_HOME}
+# Resetting permission for object storage
+if [ -d ${SINDRIA_USER_HOME}/.docker ]; then
+    chmod 700 ${SINDRIA_USER_HOME}/.docker
+    chmod 600 ${SINDRIA_USER_HOME}/.docker/*
 fi
 
 
@@ -50,6 +38,21 @@ fi
 # Setup git editor
 if [ "${GIT_EDITOR}" != "" ]; then
     su ${SINDRIA_USER} -c "git config --global core.editor ${GIT_EDITOR}"
+fi
+
+# Setup sindria git path
+if [ "${SINDRIA_GIT_PATH}" != "" ]; then
+    su ${SINDRIA_USER} -c "git config --global sindria.path ${SINDRIA_GIT_PATH}"
+fi
+
+# Setup sindria git token
+if [ "${SINDRIA_GIT_TOKEN}" != "" ]; then
+    su ${SINDRIA_USER} -c "git config --global sindria.token ${SINDRIA_GIT_TOKEN}"
+fi
+
+# Setup sindria git url
+if [ "${SINDRIA_GIT_URL}" != "" ]; then
+    su ${SINDRIA_USER} -c "git config --global sindria.url ${SINDRIA_GIT_URL}"
 fi
 
 # Override default sindria user password by env

@@ -14,6 +14,7 @@ ENV TZ ${TIMEZONE}
 ENV SUDO_GROUP wheel
 ENV DISPLAY ${XDEV_DISPLAY}
 ENV XDEV_SINDRIA_USER_PASSWORD ${XDEV_SINDRIA_USER_PASSWORD}
+ENV XDEV_NOVNC_SUBJ "/C=IT/ST=Italy/L=MI/O=MI/OU=MI/CN=xdev.sindria.org emailAddress=info@sindria.org"
 ENV XDEV_MODE web
 ENV XDEV_WEB_PORT 8080
 ENV XDEV_WEB_RESOLUTION 1920x1080
@@ -32,10 +33,10 @@ RUN dnf install -y libXv mesa-libGLU xorg-x11-server-Xorg xorg-x11-xauth xorg-x1
     echo "exec i3" > /root/.xinitrc && \
     echo "exec i3" > ${SINDRIA_USER_HOME}/.xinitrc && \
     mkdir -p /root/.novnc && \
-    openssl req -x509 -nodes -newkey rsa:2048 -keyout /root/novnc.pem -out /root/.novnc/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" && \
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout /root/novnc.pem -out /root/.novnc/novnc.pem -days 3650 -subj ${XDEV_NOVNC_SUBJ} && \
     rm -f /root/novnc.pem && \
     mkdir -p ${SINDRIA_USER_HOME}/.novnc && \
-    openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/.novnc/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" && \
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout ${SINDRIA_USER_HOME}/.novnc/novnc.pem -out ${SINDRIA_USER_HOME}/novnc.pem -days 3650 -subj ${XDEV_NOVNC_SUBJ} && \
     rm -f ${SINDRIA_USER_HOME}/novnc.pem
 
 # Install TigerVNC Server
