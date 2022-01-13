@@ -8,9 +8,10 @@ ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
 
-ENV LENS_VERSION 5.1.1
-ENV TELEGRAM_DESKTOP_VERSION 2.8.10
-ENV FIREFOX_DEVELOPER_VERSION 91.0b6
+ENV LENS_VERSION 5.3.3
+ENV LENS_BUILD_VERSION 20211223.1
+ENV TELEGRAM_DESKTOP_VERSION 3.4.3
+ENV FIREFOX_DEVELOPER_VERSION 97.0b2
 
 LABEL \
 	name="xdev" \
@@ -20,12 +21,16 @@ LABEL \
 
 # Install Lens
 COPY resources/scripts/lens.sh /opt/lens/lens.sh
-RUN wget https://lens-binaries.s3-eu-west-1.amazonaws.com/ide/Lens-${LENS_VERSION}-latest.20210716.1.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-    dnf install ${SINDRIA_USER_HOME}/Lens-${LENS_VERSION}-latest.20210716.1.x86_64.rpm -y && \
+RUN wget https://lens-binaries.s3-eu-west-1.amazonaws.com/ide/Lens-${LENS_VERSION}-latest.${LENS_BUILD_VERSION}.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
+    dnf install ${SINDRIA_USER_HOME}/Lens-${LENS_VERSION}-latest.${LENS_BUILD_VERSION}.x86_64.rpm -y && \
     rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
     dnf clean all && \
     chmod +x /opt/lens/lens.sh && \
     ln -s /opt/lens/lens.sh /usr/local/bin/lens-no-sandbox
+
+# Install Remmina
+RUN dnf install -y remmina && \
+    dnf clean all
 
 # Install Git Sindria
 RUN cd /tmp && \
@@ -54,11 +59,12 @@ RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FI
     mv /opt/firefox /opt/firefox-developer && \
     ln -s /opt/firefox-developer/firefox /usr/local/bin/firefox-developer
 
-# Install sublime text
-RUN rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg && \
-    dnf config-manager --add-repo https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo && \
-    dnf install sublime-text -y && \
-    dnf clean all
+# Install postman
+RUN cd /opt && \
+    curl -X GET https://dl.pstmn.io/download/latest/linux64 -o postman.tar.gz && \
+    tar xzvf postman.tar.gz && \
+    rm -rf /opt/*.tar.gz && \
+    ln -s /opt/Postman/Postman /usr/local/bin/postman
 
 # Install vscode
 RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
