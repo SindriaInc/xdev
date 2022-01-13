@@ -8,11 +8,10 @@ ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
 
-ENV TELEGRAM_DESKTOP_VERSION 2.8.10
-ENV FIREFOX_DEVELOPER_VERSION 91.0b6
-ENV MYSQL_WORKBENCH_VERSION 8.0.25-1
-ENV PHPSTORM_VERSION 2021.1.4
-ENV DATAGRIP_VERSION 2021.1.3
+ENV TELEGRAM_DESKTOP_VERSION 3.4.3
+ENV FIREFOX_DEVELOPER_VERSION 97.0b2
+ENV PHPSTORM_VERSION 2021.3.1
+ENV DATAGRIP_VERSION 2021.3.1
 
 LABEL \
 	name="xdev" \
@@ -47,16 +46,17 @@ RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FI
     mv /opt/firefox /opt/firefox-developer && \
     ln -s /opt/firefox-developer/firefox /usr/local/bin/firefox-developer
 
+# Install postman
+RUN cd /opt && \
+    curl -X GET https://dl.pstmn.io/download/latest/linux64 -o postman.tar.gz && \
+    tar xzvf postman.tar.gz && \
+    rm -rf /opt/*.tar.gz && \
+    ln -s /opt/Postman/Postman /usr/local/bin/postman
+
 # Install sublime text
 RUN rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg && \
     dnf config-manager --add-repo https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo && \
     dnf install sublime-text -y && \
-    dnf clean all
-
-# Install Mysql Workbench
-RUN wget https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc${FEDORA_VERSION}.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-    dnf install ${SINDRIA_USER_HOME}/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc${FEDORA_VERSION}.x86_64.rpm -y && \
-    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
     dnf clean all
 
 # Install PhpStorm
