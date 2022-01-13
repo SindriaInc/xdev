@@ -8,9 +8,9 @@ ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
 
-ENV TELEGRAM_DESKTOP_VERSION 2.8.10
-ENV FIREFOX_DEVELOPER_VERSION 91.0b6
-ENV WEBSTORM_VERSION 2021.1.3
+ENV TELEGRAM_DESKTOP_VERSION 3.4.3
+ENV FIREFOX_DEVELOPER_VERSION 97.0b2
+ENV WEBSTORM_VERSION 2021.3.1
 
 LABEL \
 	name="xdev" \
@@ -54,11 +54,12 @@ RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FI
     mv /opt/firefox /opt/firefox-developer && \
     ln -s /opt/firefox-developer/firefox /usr/local/bin/firefox-developer
 
-# Install vscode
-RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
-    sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' && \
-    dnf install -y code && \
-    dnf clean all
+# Install postman
+RUN cd /opt && \
+    curl -X GET https://dl.pstmn.io/download/latest/linux64 -o postman.tar.gz && \
+    tar xzvf postman.tar.gz && \
+    rm -rf /opt/*.tar.gz && \
+    ln -s /opt/Postman/Postman /usr/local/bin/postman
 
 # Install WebStorm
 RUN wget https://download-cf.jetbrains.com/webstorm/WebStorm-${WEBSTORM_VERSION}.tar.gz -P /opt && \
@@ -66,4 +67,3 @@ RUN wget https://download-cf.jetbrains.com/webstorm/WebStorm-${WEBSTORM_VERSION}
     rm -rf /opt/*.tar.gz && \
     mv /opt/WebStorm-* /opt/webstorm && \
     ln -s /opt/webstorm/bin/webstorm.sh /usr/local/bin/webstorm
-
