@@ -41,9 +41,9 @@ RUN wget https://lens-binaries.s3-eu-west-1.amazonaws.com/ide/Lens-${LENS_VERSIO
 RUN dnf install -y remmina && \
     dnf clean all
 
-## Install pandoc
-#RUN dnf install -y texlive-scheme-full pandoc && \
-#    dnf clean all
+# Install pandoc
+RUN dnf install -y texlive-scheme-full pandoc && \
+    dnf clean all
 
 # Install Git Sindria
 RUN cd /tmp && \
