@@ -8,9 +8,10 @@ ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
 
-ENV TELEGRAM_DESKTOP_VERSION 2.8.10
-ENV FIREFOX_DEVELOPER_VERSION 91.0b6
-ENV PYCHARM_VERSION 2021.1.3
+ENV TELEGRAM_DESKTOP_VERSION 3.4.3
+ENV FIREFOX_DEVELOPER_VERSION 97.0b2
+ENV PYCHARM_VERSION 2021.3.1
+ENV DATAGRIP_VERSION 2021.3.3
 
 LABEL \
 	name="xdev" \
@@ -45,9 +46,23 @@ RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FI
     mv /opt/firefox /opt/firefox-developer && \
     ln -s /opt/firefox-developer/firefox /usr/local/bin/firefox-developer
 
+# Install postman
+RUN cd /opt && \
+    curl -X GET https://dl.pstmn.io/download/latest/linux64 -o postman.tar.gz && \
+    tar xzvf postman.tar.gz && \
+    rm -rf /opt/*.tar.gz && \
+    ln -s /opt/Postman/Postman /usr/local/bin/postman
+
 # Install PyCharm
 RUN wget https://download-cf.jetbrains.com/python/pycharm-professional-${PYCHARM_VERSION}.tar.gz -P /opt && \
     tar xzf /opt/pycharm-professional-${PYCHARM_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
     mv /opt/pycharm-* /opt/pycharm && \
     ln -s /opt/pycharm/bin/pycharm.sh /usr/local/bin/pycharm
+
+# Install DataGrip
+RUN wget https://download-cf.jetbrains.com/datagrip/datagrip-${DATAGRIP_VERSION}.tar.gz -P /opt && \
+    tar xzf /opt/datagrip-${DATAGRIP_VERSION}.tar.gz -C /opt && \
+    rm -rf /opt/*.tar.gz && \
+    mv /opt/DataGrip-* /opt/datagrip && \
+    ln -s /opt/datagrip/bin/datagrip.sh /usr/local/bin/datagrip
