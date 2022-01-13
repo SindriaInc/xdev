@@ -10,7 +10,7 @@ ENV DISPLAY ${XDEV_DISPLAY}
 
 ENV TELEGRAM_DESKTOP_VERSION 3.4.3
 ENV FIREFOX_DEVELOPER_VERSION 97.0b2
-ENV PYCHARM_VERSION 2021.3.1
+ENV IDEA_VERSION 2021.3.1
 ENV DATAGRIP_VERSION 2021.3.3
 
 LABEL \
@@ -53,12 +53,12 @@ RUN cd /opt && \
     rm -rf /opt/*.tar.gz && \
     ln -s /opt/Postman/Postman /usr/local/bin/postman
 
-# Install PyCharm
-RUN wget https://download-cf.jetbrains.com/python/pycharm-professional-${PYCHARM_VERSION}.tar.gz -P /opt && \
-    tar xzf /opt/pycharm-professional-${PYCHARM_VERSION}.tar.gz -C /opt && \
+# Install Idea
+RUN wget https://download-cf.jetbrains.com/idea/ideaIU-${IDEA_VERSION}.tar.gz -P /opt && \
+    tar xzf /opt/ideaIU-${IDEA_VERSION}.tar.gz -C /opt && \
     rm -rf /opt/*.tar.gz && \
-    mv /opt/pycharm-* /opt/pycharm && \
-    ln -s /opt/pycharm/bin/pycharm.sh /usr/local/bin/pycharm
+    mv /opt/idea-* /opt/idea && \
+    ln -s /opt/idea/bin/idea.sh /usr/local/bin/idea
 
 # Install DataGrip
 RUN wget https://download-cf.jetbrains.com/datagrip/datagrip-${DATAGRIP_VERSION}.tar.gz -P /opt && \
