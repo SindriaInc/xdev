@@ -9,6 +9,7 @@ ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
 
 ENV LENS_VERSION 5.3.3
+ENV LENS_BUILD_VERSION 20211223.1
 ENV TELEGRAM_DESKTOP_VERSION 3.4.3
 ENV FIREFOX_DEVELOPER_VERSION 97.0b2
 ENV MYSQL_WORKBENCH_VERSION 8.0.27-1
@@ -29,8 +30,8 @@ LABEL \
 
 # Install Lens
 COPY resources/scripts/lens.sh /opt/lens/lens.sh
-RUN wget https://lens-binaries.s3-eu-west-1.amazonaws.com/ide/Lens-${LENS_VERSION}-latest.20210716.1.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-    dnf install ${SINDRIA_USER_HOME}/Lens-${LENS_VERSION}-latest.20210716.1.x86_64.rpm -y && \
+RUN wget https://lens-binaries.s3-eu-west-1.amazonaws.com/ide/Lens-${LENS_VERSION}-latest.${LENS_BUILD_VERSION}.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
+    dnf install ${SINDRIA_USER_HOME}/Lens-${LENS_VERSION}-latest.${LENS_BUILD_VERSION}.x86_64.rpm -y && \
     rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
     dnf clean all && \
     chmod +x /opt/lens/lens.sh && \
