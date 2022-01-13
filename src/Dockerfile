@@ -8,18 +8,18 @@ ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
 
-ENV LENS_VERSION 5.1.1
+ENV LENS_VERSION 5.3.3
 ENV TELEGRAM_DESKTOP_VERSION 3.4.3
 ENV FIREFOX_DEVELOPER_VERSION 97.0b2
-ENV MYSQL_WORKBENCH_VERSION 8.0.25-1
-ENV PHPSTORM_VERSION 2021.1.4
-ENV PYCHARM_VERSION 2021.1.3
-ENV IDEA_VERSION 2021.1.3
-ENV WEBSTORM_VERSION 2021.1.3
-ENV RUBYMINE_VERSION 2021.1.3
-ENV GOLAND_VERSION 2021.1.3
-ENV CLION_VERSION 2021.1.3
-ENV DATAGRIP_VERSION 2021.1.3
+ENV MYSQL_WORKBENCH_VERSION 8.0.27-1
+ENV PHPSTORM_VERSION 2021.3.1
+ENV PYCHARM_VERSION 2021.3.1
+ENV IDEA_VERSION 2021.3.1
+ENV WEBSTORM_VERSION 2021.3.1
+ENV RUBYMINE_VERSION 2021.3.1
+ENV GOLAND_VERSION 2021.3.1
+ENV CLION_VERSION 2021.3.1
+ENV DATAGRIP_VERSION 2021.3.1
 
 LABEL \
 	name="xdev" \
@@ -61,13 +61,6 @@ RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.
     mkdir -p /var/cache/fontconfig && \
     chown root:${SINDRIA_USER} /var/cache/fontconfig && \
     chmod 775 /var/cache/fontconfig
-
-## Install Discord
-#RUN cd /tmp && \
-#    git clone https://github.com/RPM-Outpost/discord.git && \
-#    cd discord && \
-#    echo -n "y\ny" | bash create-package.sh stable && \
-#    rm -Rf /tmp/discord
 
 # Install Google-Chrome
 COPY resources/scripts/chrome.sh /opt/chrome/chrome.sh
