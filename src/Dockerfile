@@ -8,11 +8,8 @@ ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
 
-ENV LENS_VERSION 5.3.3
-ENV LENS_BUILD_VERSION 20211223.1
 ENV TELEGRAM_DESKTOP_VERSION 3.4.3
 ENV FIREFOX_DEVELOPER_VERSION 97.0b2
-ENV MYSQL_WORKBENCH_VERSION 8.0.27-1
 ENV PHPSTORM_VERSION 2021.3.1
 ENV PYCHARM_VERSION 2021.3.1
 ENV IDEA_VERSION 2021.3.1
@@ -27,23 +24,6 @@ LABEL \
 	image="sindriainc/xdev" \
 	tag="${TAG_VERSION}" \
 	vendor="sindria"
-
-# Install Lens
-COPY resources/scripts/lens.sh /opt/lens/lens.sh
-RUN wget https://lens-binaries.s3-eu-west-1.amazonaws.com/ide/Lens-${LENS_VERSION}-latest.${LENS_BUILD_VERSION}.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-    dnf install ${SINDRIA_USER_HOME}/Lens-${LENS_VERSION}-latest.${LENS_BUILD_VERSION}.x86_64.rpm -y && \
-    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
-    dnf clean all && \
-    chmod +x /opt/lens/lens.sh && \
-    ln -s /opt/lens/lens.sh /usr/local/bin/lens-no-sandbox
-
-# Install Remmina
-RUN dnf install -y remmina && \
-    dnf clean all
-
-## Install pandoc
-#RUN dnf install -y texlive-scheme-full pandoc && \
-#    dnf clean all
 
 # Install Git Sindria
 RUN cd /tmp && \
@@ -62,15 +42,6 @@ RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.
     mkdir -p /var/cache/fontconfig && \
     chown root:${SINDRIA_USER} /var/cache/fontconfig && \
     chmod 775 /var/cache/fontconfig
-
-# Install Google-Chrome
-COPY resources/scripts/chrome.sh /opt/chrome/chrome.sh
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-    dnf install ${SINDRIA_USER_HOME}/google-chrome-stable_current_x86_64.rpm -y && \
-    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
-    dnf clean all && \
-    chmod +x /opt/chrome/chrome.sh && \
-    ln -s /opt/chrome/chrome.sh /usr/local/bin/chrome
 
 # Install firefox developer edition
 RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FIREFOX_DEVELOPER_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_DEVELOPER_VERSION}.tar.bz2 -P /opt && \
@@ -92,18 +63,6 @@ RUN cd /opt && \
 RUN rpm -v --import https://download.sublimetext.com/sublimehq-rpm-pub.gpg && \
     dnf config-manager --add-repo https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo && \
     dnf install sublime-text -y && \
-    dnf clean all
-
-# Install vscode
-RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
-    sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' && \
-    dnf install -y code && \
-    dnf clean all
-
-# Install Mysql Workbench
-RUN wget https://cdn.mysql.com//Downloads/MySQLGUITools/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc${FEDORA_VERSION}.x86_64.rpm -P ${SINDRIA_USER_HOME} && \
-    dnf install ${SINDRIA_USER_HOME}/mysql-workbench-community-${MYSQL_WORKBENCH_VERSION}.fc${FEDORA_VERSION}.x86_64.rpm -y && \
-    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
     dnf clean all
 
 # Install PhpStorm
