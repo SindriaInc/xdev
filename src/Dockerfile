@@ -9,8 +9,8 @@ ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
 
 ENV LENS_VERSION 5.1.1
-ENV TELEGRAM_DESKTOP_VERSION 2.9.0
-ENV FIREFOX_DEVELOPER_VERSION 92.0b2
+ENV TELEGRAM_DESKTOP_VERSION 3.4.3
+ENV FIREFOX_DEVELOPER_VERSION 97.0b2
 ENV MYSQL_WORKBENCH_VERSION 8.0.25-1
 ENV PHPSTORM_VERSION 2021.1.4
 ENV PYCHARM_VERSION 2021.1.3
@@ -40,9 +40,9 @@ RUN wget https://lens-binaries.s3-eu-west-1.amazonaws.com/ide/Lens-${LENS_VERSIO
 RUN dnf install -y remmina && \
     dnf clean all
 
-# Install pandoc
-RUN dnf install -y texlive-scheme-full pandoc && \
-    dnf clean all
+## Install pandoc
+#RUN dnf install -y texlive-scheme-full pandoc && \
+#    dnf clean all
 
 # Install Git Sindria
 RUN cd /tmp && \
@@ -62,12 +62,12 @@ RUN wget https://updates.tdesktop.com/tlinux/tsetup.${TELEGRAM_DESKTOP_VERSION}.
     chown root:${SINDRIA_USER} /var/cache/fontconfig && \
     chmod 775 /var/cache/fontconfig
 
-# Install Discord
-RUN cd /tmp && \
-    git clone https://github.com/RPM-Outpost/discord.git && \
-    cd discord && \
-    echo -n "y\ny" | bash create-package.sh stable && \
-    rm -Rf /tmp/discord
+## Install Discord
+#RUN cd /tmp && \
+#    git clone https://github.com/RPM-Outpost/discord.git && \
+#    cd discord && \
+#    echo -n "y\ny" | bash create-package.sh stable && \
+#    rm -Rf /tmp/discord
 
 # Install Google-Chrome
 COPY resources/scripts/chrome.sh /opt/chrome/chrome.sh
