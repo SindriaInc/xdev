@@ -8,8 +8,8 @@ ENV SINDRIA_USER sindria
 ENV SINDRIA_USER_HOME /home/sindria
 ENV DISPLAY ${XDEV_DISPLAY}
 
-ENV TELEGRAM_DESKTOP_VERSION 3.4.3
-ENV FIREFOX_DEVELOPER_VERSION 97.0b2
+ENV TELEGRAM_DESKTOP_VERSION 3.4.8
+ENV FIREFOX_DEVELOPER_VERSION 97.0b6
 ENV PHPSTORM_VERSION 2021.3.1
 ENV PYCHARM_VERSION 2021.3.1
 ENV IDEA_VERSION 2021.3.1
@@ -51,6 +51,15 @@ RUN wget https://download-installer.cdn.mozilla.net/pub/devedition/releases/${FI
     rm -rf /opt/*.tar && \
     mv /opt/firefox /opt/firefox-developer && \
     ln -s /opt/firefox-developer/firefox /usr/local/bin/firefox-developer
+
+# Install Google-Chrome
+COPY resources/scripts/chrome.sh /opt/chrome/chrome.sh
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm -P ${SINDRIA_USER_HOME} && \
+    dnf install ${SINDRIA_USER_HOME}/google-chrome-stable_current_x86_64.rpm -y && \
+    rm -rf ${SINDRIA_USER_HOME}/*.rpm && \
+    dnf clean all && \
+    chmod +x /opt/chrome/chrome.sh && \
+    ln -s /opt/chrome/chrome.sh /usr/local/bin/chrome
 
 # Install postman
 RUN cd /opt && \
