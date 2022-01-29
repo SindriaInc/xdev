@@ -48,11 +48,11 @@ services:
       - NET_ADMIN
     security_opt:
       - seccomp:unconfined
-    networks:
-      default:
-        ipv4_address: "${XDEV_IP_ADDRESS}"
-        aliases:
-          - "${APP_NAME}.local"
+    #networks:
+    #  default:
+    #    ipv4_address: "${XDEV_IP_ADDRESS}"
+    #    aliases:
+    #      - "${APP_NAME}.local"
     #devices:
     #  - "/dev/snd"
 
