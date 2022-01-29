@@ -107,6 +107,10 @@ With xdev you have complete linux workstation ready out of the box with the foll
 - Run: `docker-compose up -d`
 - Url: [http://localhost:8080](http://localhost:8080)
 
+### WSL install
+
+- `wget --no-check-certificate https://raw.githubusercontent.com/SindriaInc/xdev/master/bin/xdev-install.sh -O - | sh`
+
 N.B. If you got an error check out others deployments mode, such as host mode and subnet mode.
 
 # License
