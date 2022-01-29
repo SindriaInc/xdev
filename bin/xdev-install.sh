@@ -36,9 +36,21 @@ CACHE_MOUNTPOINT=$(df -h | grep ${XDEV_NAME} |  tr -s ' ' | cut -d ' ' -f 6 | gr
 
 if [ "${CACHE_MOUNTPOINT}" != "" ]; then
     echo -e "${BLUE}Found cache mountpoint, symblinking...${NC}"
+    touch ${HOME}/${XDEV_NAME}/.cloud
     cd ${HOME}/${XDEV_NAME}
-    ln -s storage/cache/deployment/compose-wsl.yml docker-compose.yml
-    ln -s storage/cache/deployment/.env.wsl .env
+    ln -s storage/cache/deployment/compose-wsl.yml docker-compose.yml || true
+    ln -s storage/cache/deployment/.env.wsl .env || true
+    cd ${HOME}
+fi
+echo
+
+if [ ! -f ${HOME}/${XDEV_NAME}/.cloud ]; then
+    echo -e "${BLUE}Not found cloud setup, downloading...${NC}"
+    cd ${HOME}/${XDEV_NAME}
+    wget --no-check-certificate https://raw.githubusercontent.com/SindriaInc/xdev/master/deployments/compose-wsl.yml
+    wget --no-check-certificate https://raw.githubusercontent.com/SindriaInc/xdev/master/deployments/.env.wsl
+    mv compose-wsl.yml docker-compose.yml
+    mv .env.wsl .env
 fi
 echo
 
