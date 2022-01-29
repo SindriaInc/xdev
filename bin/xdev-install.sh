@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+#set -e
 
 # Setting Colors
 BLUE='\033[0;34m'
