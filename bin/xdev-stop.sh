@@ -17,8 +17,8 @@ fi
 XDEV_NAME=$1
 
 echo -e "${BLUE}Purging current X11 sockets...${NC}"
-docker exec -t ${XDEV_NAME} rm -Rf /tmp/.X1-lock
-docker exec -t ${XDEV_NAME} rm -Rf /tmp/.X11-unix
+docker exec -t ${XDEV_NAME} rm -Rf /tmp/.X1-lock || true
+docker exec -t ${XDEV_NAME} rm -Rf /tmp/.X11-unix || true
 echo
 
 echo -e "${BLUE}Stopping Xdev...${NC}"
