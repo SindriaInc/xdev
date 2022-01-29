@@ -1,6 +1,6 @@
 # Xdev Base
 
-Base image for xdev.
+Base image for all xdev components and versions.
 
 # License
 
