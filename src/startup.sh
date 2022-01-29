@@ -40,19 +40,19 @@ if [ "${GIT_EDITOR}" != "" ]; then
     su ${SINDRIA_USER} -c "git config --global core.editor ${GIT_EDITOR}"
 fi
 
-# Setup sindria git path
-if [ "${SINDRIA_GIT_PATH}" != "" ]; then
-    su ${SINDRIA_USER} -c "git config --global sindria.path ${SINDRIA_GIT_PATH}"
+# Setup git sindria path
+if [ "${GIT_SINDRIA_PATH}" != "" ]; then
+    su ${SINDRIA_USER} -c "git config --global sindria.path ${GIT_SINDRIA_PATH}"
 fi
 
 # Setup sindria git token
-if [ "${SINDRIA_GIT_TOKEN}" != "" ]; then
-    su ${SINDRIA_USER} -c "git config --global sindria.token ${SINDRIA_GIT_TOKEN}"
+if [ "${GIT_SINDRIA_TOKEN}" != "" ]; then
+    su ${SINDRIA_USER} -c "git config --global sindria.token ${GIT_SINDRIA_TOKEN}"
 fi
 
-# Setup sindria git url
-if [ "${SINDRIA_GIT_URL}" != "" ]; then
-    su ${SINDRIA_USER} -c "git config --global sindria.url ${SINDRIA_GIT_URL}"
+# Setup git sindria url
+if [ "${GIT_SINDRIA_URL}" != "" ]; then
+    su ${SINDRIA_USER} -c "git config --global sindria.url ${GIT_SINDRIA_URL}"
 fi
 
 # Override default sindria user password by env
