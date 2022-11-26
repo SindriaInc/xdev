@@ -5,6 +5,11 @@
 
 # Xdev
 
+# *WARNING REPOSITORY ARCHIVED*
+
+### The source code has been moved [here](https://github.com/SindriaInc/XPipe/tree/master/Core/xdev)
+
+
 Xdev is the first cloud native distro made for developers.
 
 You can run Xdev everywhere you have docker daemon running.
